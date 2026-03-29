@@ -135,3 +135,8 @@ CREATE TABLE IF NOT EXISTS patient_conditions (
     FOREIGN KEY (patient_id) REFERENCES patient_records(patient_id) ON DELETE CASCADE,
     FOREIGN KEY (condition_id) REFERENCES medical_conditions(condition_id) ON DELETE CASCADE
 );
+
+-- INSERT ADMIN
+INSERT OR IGNORE INTO users (username, password) VALUES
+('admin1', 'admin1')
+-- TODO: Change password into php hashed password...

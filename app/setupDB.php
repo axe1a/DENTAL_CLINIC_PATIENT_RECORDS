@@ -1,5 +1,5 @@
 <?php
-require 'config.php';
+require 'dbConfig.php';
 
 $schemaFile = __DIR__ . '/schema.sql';
 

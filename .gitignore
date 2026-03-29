@@ -1,3 +1,5 @@
 /php
 php.zip
 /database/database.sqlite
+/node_modules
+/uploads
