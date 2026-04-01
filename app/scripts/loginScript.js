@@ -25,6 +25,8 @@ $("#loginButton").on("click", async function(event){
             return;
         }
 
+        // After successful login, go to dashboard.
+        window.location.href = "dashboard/index.php";
     } catch(error) {
         // TODO: Notify user about error (perhaps incorrect password or username does not exist)
         console.log(error);

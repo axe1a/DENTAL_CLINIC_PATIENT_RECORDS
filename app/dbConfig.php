@@ -1,7 +1,13 @@
 <?php
 session_start();
 
-$database = __DIR__ . '/../database/database.sqlite';
+$databaseDir = __DIR__ . '/../database';
+$database = $databaseDir . '/database.sqlite';
+
+// The app expects the SQLite directory to exist for first-time runs.
+if (!is_dir($databaseDir)) {
+    mkdir($databaseDir, 0777, true);
+}
 
 try {
     $pdo = new PDO("sqlite:$database");
