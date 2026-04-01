@@ -9,7 +9,6 @@ A website that stores a sample dental clinic's patient records. This site was co
 ```
 git clone https://github.com/axe1a/DENTAL_CLINIC_PATIENT_RECORDS.git
 cd DENTAL_CLINIC_PATIENT_RECORDS
-
 ```
 
 ### Usage
@@ -29,7 +28,6 @@ To start the website and database, just run `start.bat`. It will download and se
 ```
 git clone https://github.com/axe1a/DENTAL_CLINIC_PATIENT_RECORDS.git
 cd DENTAL_CLINIC_PATIENT_RECORDS
-
 ```
 
 Install dependencies using `npm install`. <br>
@@ -37,4 +35,4 @@ To edit Tailwind CSS classes, run `npx @tailwindcss/cli -i ./app/imports/importT
 
 ### Setup
 
-To start the website and database, just run `start.bat`
+To start the website and database, just run `start.bat`. It will download and setup PHP on your first run.

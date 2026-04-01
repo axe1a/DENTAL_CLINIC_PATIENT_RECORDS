@@ -13,7 +13,7 @@ $me = $stmt->fetch();
 $username = $me ? (string)$me['username'] : 'User';
 
 if ($username !== 'admin1') {
-    header("Location: dashboard/index.php");
+    header("Location: index.php");
     exit;
 }
 
@@ -81,6 +81,7 @@ if ($mode === 'update' && $editUserId > 0) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -88,11 +89,12 @@ if ($mode === 'update' && $editUserId > 0) {
     <link href="./styles/style.css" rel="stylesheet">
     <link href="./styles/tailwindStyles.css" rel="stylesheet">
 </head>
+
 <body>
     <header class="topbar">
         <div class="topbar-inner">
             <div class="brand-left">
-                <a href="dashboard/index.php" aria-label="Go to dashboard home">
+                <a href="index.php" aria-label="Go to dashboard home">
                     <img class="logo-mark" src="./img/logo-symbol.png" alt="Solla Dental Clinic logo">
                 </a>
             </div>
@@ -109,7 +111,7 @@ if ($mode === 'update' && $editUserId > 0) {
                 <div class="user-pill" id="userPill">Hi, <?= htmlspecialchars($username) ?></div>
                 <div class="user-dropdown" id="userDropdown" style="display:none">
                     <a class="dd-btn primary" href="./change_pass.php">Change Password</a>
-                    <?php if ($isSuperadmin): ?>
+                    <?php if (isset($isSuperadmin) && $isSuperadmin): ?>
                         <a class="dd-btn primary" href="./personnel_list.php">Personnel List</a>
                     <?php endif; ?>
                     <a class="dd-btn danger" href="./logout.php">Logout</a>
@@ -136,8 +138,7 @@ if ($mode === 'update' && $editUserId > 0) {
                             value="<?= htmlspecialchars($mode === 'update' ? $editUsername : '') ?>"
                             <?= $mode === 'update' ? 'disabled' : '' ?>
                             placeholder="Username"
-                            required
-                        >
+                            required>
                         <?php if ($mode === 'update'): ?>
                             <small style="display:block; margin-top:6px;">Editing only changes password.</small>
                         <?php endif; ?>
@@ -188,8 +189,7 @@ if ($mode === 'update' && $editUserId > 0) {
                                         style="display:flex; align-items:center; justify-content:center; text-decoration:none;"
                                         href="personnel_list.php?delete_user_id=<?= (int)$p['user_id'] ?>"
                                         onclick="return confirm('Delete this personnel?')"
-                                        title="Delete"
-                                    >
+                                        title="Delete">
                                         <img src="./assets/delete.svg" alt="Delete" width="16" height="16" style="filter: brightness(0) saturate(100%) invert(50%) sepia(66%) saturate(1128%) hue-rotate(348deg) brightness(103%) contrast(101%);">
                                     </a>
                                 </div>
@@ -205,23 +205,23 @@ if ($mode === 'update' && $editUserId > 0) {
             </table>
         </div>
     </div>
-<script>
-    (function(){
-        const userArea = document.getElementById('userArea');
-        const userPill = document.getElementById('userPill');
-        const dropdown = document.getElementById('userDropdown');
-        if(!userArea || !userPill || !dropdown) return;
-        userPill.addEventListener('click', function(event){
-            event.stopPropagation();
-            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-        });
-        document.addEventListener('click', function(event){
-            if(!userArea.contains(event.target)){
-                dropdown.style.display = 'none';
-            }
-        });
-    })();
-</script>
+    <script>
+        (function() {
+            const userArea = document.getElementById('userArea');
+            const userPill = document.getElementById('userPill');
+            const dropdown = document.getElementById('userDropdown');
+            if (!userArea || !userPill || !dropdown) return;
+            userPill.addEventListener('click', function(event) {
+                event.stopPropagation();
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            });
+            document.addEventListener('click', function(event) {
+                if (!userArea.contains(event.target)) {
+                    dropdown.style.display = 'none';
+                }
+            });
+        })();
+    </script>
 </body>
-</html>
 
+</html>

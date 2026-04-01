@@ -6,13 +6,6 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-$userId = (int)$_SESSION['user_id'];
-$stmt = $pdo->prepare("SELECT username FROM users WHERE user_id = ?");
-$stmt->execute([$userId]);
-$user = $stmt->fetch();
-$username = $user ? (string)$user['username'] : 'User';
-$isSuperadmin = ($username === 'admin1');
-
 $q = trim((string)($_GET['q'] ?? ''));
 $level = trim((string)($_GET['level'] ?? 'all')); // all | 1,2,3,4, 
 
@@ -34,6 +27,7 @@ $recent = array_slice($filtered, 0, 5);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,6 +35,7 @@ $recent = array_slice($filtered, 0, 5);
     <link rel="stylesheet" href="../styles/style.css">
     <link rel="stylesheet" href="./styles/tailwindStyles.css">
 </head>
+
 <body>
     <header class="topbar">
         <div class="topbar-inner">
@@ -59,10 +54,10 @@ $recent = array_slice($filtered, 0, 5);
             </form>
 
             <div class="user-area" id="userArea">
-                <div class="user-pill" id="userPill">Hi, <?= htmlspecialchars($username) ?></div>
+                <div class="user-pill" id="userPill">Hi, <?= htmlspecialchars($_SESSION['username']) ?></div>
                 <div class="user-dropdown" id="userDropdown" style="display:none">
                     <a class="dd-btn primary" href="../change_pass.php">Change Password</a>
-                    <?php if ($isSuperadmin): ?>
+                    <?php if ($_SESSION['user_role'] == "superadmin"): ?>
                         <a class="dd-btn primary" href="../personnel_list.php">Personnel List</a>
                     <?php endif; ?>
                     <a class="dd-btn danger" href="../logout.php">Logout</a>
@@ -89,7 +84,7 @@ $recent = array_slice($filtered, 0, 5);
                         </div>
                     <?php endif; ?>
 
-                    <?php foreach ($recent as $p): 
+                    <?php foreach ($recent as $p):
                         $lvl = (string)$p['alert_level'];
                         $parts = explode(',', (string)$p['patient_name'], 2);
                         $surname = trim($parts[0] ?? '');
@@ -98,7 +93,7 @@ $recent = array_slice($filtered, 0, 5);
                     ?>
                         <a class="patient-card" href="../edit_patient.php?patient_id=<?= (int)$p['patient_id'] ?>">
                             <img class="icon alert-icon" src="<?= htmlspecialchars($iconPath) ?>" alt="Alert level <?= htmlspecialchars($lvl) ?> symbol">
-                            <div class="pname"><?= htmlspecialchars($surname) ?><?php if ($firstName !== ''): ?><br/><?= htmlspecialchars($firstName) ?><?php endif; ?></div>
+                            <div class="pname"><?= htmlspecialchars($surname) ?><?php if ($firstName !== ''): ?><br /><?= htmlspecialchars($firstName) ?><?php endif; ?></div>
                             <div class="plevel">Level <?= htmlspecialchars($lvl) ?></div>
                         </a>
                     <?php endforeach; ?>
@@ -124,25 +119,25 @@ $recent = array_slice($filtered, 0, 5);
     </main>
 
     <script>
-        (function(){
+        (function() {
             const userArea = document.getElementById('userArea');
             const userPill = document.getElementById('userPill');
             const dropdown = document.getElementById('userDropdown');
-            if(!userArea || !userPill || !dropdown) return;
+            if (!userArea || !userPill || !dropdown) return;
 
-            userPill.addEventListener('click', function(){
+            userPill.addEventListener('click', function() {
                 dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
             });
 
-            document.addEventListener('click', function(e){
-                if(!userArea.contains(e.target)){
+            document.addEventListener('click', function(e) {
+                if (!userArea.contains(e.target)) {
                     dropdown.style.display = 'none';
                 }
             });
 
             const levelSelect = document.getElementById('levelSelect');
-            if(levelSelect){
-                levelSelect.addEventListener('change', function(){
+            if (levelSelect) {
+                levelSelect.addEventListener('change', function() {
                     const params = new URLSearchParams(window.location.search);
                     params.set('level', levelSelect.value);
                     window.location.search = params.toString();
@@ -151,5 +146,5 @@ $recent = array_slice($filtered, 0, 5);
         })();
     </script>
 </body>
-</html>
 
+</html>

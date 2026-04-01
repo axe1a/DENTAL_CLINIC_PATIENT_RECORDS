@@ -2,7 +2,8 @@
 CREATE TABLE IF NOT EXISTS users (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL,
-    password TEXT NOT NULL
+    password TEXT NOT NULL,
+    user_role TEXT CHECK(user_role IN ('superadmin','dentist')) NOT NULL
 );
 
 -- PATIENT RECORDS
@@ -137,6 +138,5 @@ CREATE TABLE IF NOT EXISTS patient_conditions (
 );
 
 -- INSERT ADMIN
-INSERT OR IGNORE INTO users (username, password) VALUES
-('admin1', 'admin1')
--- TODO: Change password into php hashed password...
+INSERT OR IGNORE INTO users (username, password, user_role) VALUES
+('admin1', '$2y$12$n4YAsR4T28UinOK3tHUSCeamX6195ZKq6n5Tl5lro7m078Vg4YkiS', 'superadmin')

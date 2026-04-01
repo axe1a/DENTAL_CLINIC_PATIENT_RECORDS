@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $newHash = password_hash($new, PASSWORD_BCRYPT);
             $upd = $pdo->prepare("UPDATE users SET password = ? WHERE user_id = ?");
             $upd->execute([$newHash, $userId]);
-            header("Location: dashboard/index.php");
+            header("Location: index.php");
             exit;
         }
     }
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <header class="topbar">
         <div class="topbar-inner">
             <div class="brand-left">
-                <a href="dashboard/index.php" aria-label="Go to dashboard home">
+                <a href="index.php" aria-label="Go to dashboard home">
                     <img class="logo-mark" src="./img/logo-symbol.png" alt="Solla Dental Clinic logo">
                 </a>
             </div>
@@ -107,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <div class="wizard-bottom">
-                    <a class="btn cancel" href="dashboard/index.php">Cancel</a>
+                    <a class="btn cancel" href="index.php">Cancel</a>
                     <button class="btn save" type="submit">Save</button>
                 </div>
             </form>
@@ -116,20 +116,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </body>
 
 <script>
-    (function(){
+    (function() {
         const userArea = document.getElementById('userArea');
         const userPill = document.getElementById('userPill');
         const dropdown = document.getElementById('userDropdown');
-        if(!userArea || !userPill || !dropdown) return;
-        userPill.addEventListener('click', function(event){
+        if (!userArea || !userPill || !dropdown) return;
+        userPill.addEventListener('click', function(event) {
             event.stopPropagation();
             dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
         });
-        document.addEventListener('click', function(event){
-            if(!userArea.contains(event.target)){
+        document.addEventListener('click', function(event) {
+            if (!userArea.contains(event.target)) {
                 dropdown.style.display = 'none';
             }
         });
     })();
 </script>
+
 </html>

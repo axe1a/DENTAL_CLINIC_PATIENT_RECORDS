@@ -16,6 +16,7 @@ $isSuperadmin = ($username === 'admin1');
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,221 +24,222 @@ $isSuperadmin = ($username === 'admin1');
     <link href="./styles/style.css" rel="stylesheet">
     <link href="./styles/tailwindStyles.css" rel="stylesheet">
 </head>
+
 <body>
-<header class="topbar">
-    <div class="topbar-inner">
-        <div class="brand-left">
-            <a href="dashboard/index.php" aria-label="Go to dashboard home">
-                <img class="logo-mark" src="./img/logo-symbol.png" alt="Solla Dental Clinic logo">
-            </a>
-        </div>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <div class="brand-left">
+                <a href="index.php" aria-label="Go to dashboard home">
+                    <img class="logo-mark" src="./img/logo-symbol.png" alt="Solla Dental Clinic logo">
+                </a>
+            </div>
 
-        <form class="search" method="GET" action="index.php">
-            <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
-                <img src="./assets/search.svg" alt="Search" width="18" height="18">
-            </button>
-            <input name="q" value="<?= htmlspecialchars($q ?? '') ?>" placeholder="Search for patients by name">
-            <input type="hidden" name="level" value="<?= htmlspecialchars($level ?? 'all') ?>">
-        </form>
+            <form class="search" method="GET" action="index.php">
+                <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
+                    <img src="./assets/search.svg" alt="Search" width="18" height="18">
+                </button>
+                <input name="q" value="<?= htmlspecialchars($q ?? '') ?>" placeholder="Search for patients by name">
+                <input type="hidden" name="level" value="<?= htmlspecialchars($level ?? 'all') ?>">
+            </form>
 
-        <div class="user-area" id="userArea">
-            <div class="user-pill" id="userPill">Hi, <?= htmlspecialchars($username) ?></div>
-            <div class="user-dropdown" id="userDropdown" style="display:none">
-                <a class="dd-btn primary" href="./change_pass.php">Change Password</a>
-                <?php if ($isSuperadmin): ?>
-                    <a class="dd-btn primary" href="./personnel_list.php">Personnel List</a>
-                <?php endif; ?>
-                <a class="dd-btn danger" href="./logout.php">Logout</a>
+            <div class="user-area" id="userArea">
+                <div class="user-pill" id="userPill">Hi, <?= htmlspecialchars($username) ?></div>
+                <div class="user-dropdown" id="userDropdown" style="display:none">
+                    <a class="dd-btn primary" href="./change_pass.php">Change Password</a>
+                    <?php if ($isSuperadmin): ?>
+                        <a class="dd-btn primary" href="./personnel_list.php">Personnel List</a>
+                    <?php endif; ?>
+                    <a class="dd-btn danger" href="./logout.php">Logout</a>
+                </div>
             </div>
         </div>
-    </div>
-</header>
+    </header>
 
-<main class="wizard">
-    <div class="page-title">Add New Patient</div>
+    <main class="wizard">
+        <div class="page-title">Add New Patient</div>
 
-    <div class="wizard-frame">
-        <?php if (!empty($error)): ?>
-            <div style="background: rgba(220,53,69,0.12); border: 1px solid rgba(220,53,69,0.35); padding: 10px 12px; border-radius: 12px; margin: 10px 0; font-weight: 900; color:#dc3545;">
-                <?= htmlspecialchars($error) ?>
-            </div>
-        <?php endif; ?>
-
-        <form method="POST" action="add_patient.php" id="patientWizardForm">
-            <!-- PAGE 1 -->
-            <section class="wizard-step active" data-step="1">
-                <div class="wizard-grid-2">
-                    <div class="field" style="grid-column: 1 / -1;">
-                        <label>Full Name [Surname, First Name, M.I.]</label>
-                        <input type="text" name="patient_name" required placeholder="Surname, First Name M.I.">
-                    </div>
-
-                    <div class="field">
-                        <label>Medical Alert Level</label>
-                        <select name="alert_level" required>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select>
-                    </div>
-
-                    <div class="field">
-                        <label>Birthdate</label>
-                        <input type="date" name="birthdate" required>
-                    </div>
+        <div class="wizard-frame">
+            <?php if (!empty($error)): ?>
+                <div style="background: rgba(220,53,69,0.12); border: 1px solid rgba(220,53,69,0.35); padding: 10px 12px; border-radius: 12px; margin: 10px 0; font-weight: 900; color:#dc3545;">
+                    <?= htmlspecialchars($error) ?>
                 </div>
+            <?php endif; ?>
 
-                <div class="wizard-grid-4" style="margin-top: 12px;">
-                    <div class="field">
-                        <label>Age</label>
-                        <input type="number" name="age" placeholder="Age">
-                    </div>
-                    <div class="field">
-                        <label>Gender</label>
-                        <select name="gender" required>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="others">Others</option>
-                        </select>
-                    </div>
-                    <div class="field">
-                        <label>Height</label>
-                        <input type="number" step="0.01" name="height" placeholder="e.g. 1.67m">
-                    </div>
-                    <div class="field">
-                        <label>Weight</label>
-                        <input type="number" step="0.1" name="weight" placeholder="e.g. 65kg">
-                    </div>
-                </div>
+            <form method="POST" action="add_patient.php" id="patientWizardForm">
+                <!-- PAGE 1 -->
+                <section class="wizard-step active" data-step="1">
+                    <div class="wizard-grid-2">
+                        <div class="field" style="grid-column: 1 / -1;">
+                            <label>Full Name [Surname, First Name, M.I.]</label>
+                            <input type="text" name="patient_name" required placeholder="Surname, First Name M.I.">
+                        </div>
 
-                <div class="wizard-grid-4" style="margin-top: 12px;">
-                    <div class="field">
-                        <label>Civil Status</label>
-                        <select name="civil_status" required>
-                            <option value="single">Single</option>
-                            <option value="married">Married</option>
-                            <option value="widowed">Widowed</option>
-                            <option value="legally separated">Legally separated</option>
-                        </select>
-                    </div>
-                    <div class="field">
-                        <label>Religion</label>
-                        <input type="text" name="religion" placeholder="Religion">
-                    </div>
-                    <div class="field">
-                        <label>Occupation</label>
-                        <input type="text" name="occupation" placeholder="Occupation">
-                    </div>
-                    <div class="field">
-                        <label>Nationality</label>
-                        <input type="text" name="nationality" placeholder="Nationality">
-                    </div>
-                </div>
+                        <div class="field">
+                            <label>Medical Alert Level</label>
+                            <select name="alert_level" required>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
 
-                <div class="wizard-grid-2" style="margin-top: 12px;">
-                    <div class="field" style="grid-column: 1 / -1;">
-                        <label>Home Address</label>
-                        <input type="text" name="home_address" placeholder="Home Address">
-                    </div>
-                    <div class="field">
-                        <label>Telephone Number</label>
-                        <input type="text" name="patient_telephone" placeholder="Telephone Number">
-                    </div>
-                    <div class="field">
-                        <label>Cellphone Number</label>
-                        <input type="text" name="patient_cellphone" placeholder="Cellphone Number">
-                    </div>
-                </div>
-            </section>
-
-            <!-- PAGE 2 -->
-            <section class="wizard-step" data-step="2">
-                <div class="wizard-grid-2">
-                    <div class="field">
-                        <label>Emergency Contact Person</label>
-                        <input type="text" name="emergency_person" placeholder="">
-                    </div>
-                    <div class="field">
-                        <label>Relationship to Patient</label>
-                        <input type="text" name="relationship_to_patient" placeholder="">
-                    </div>
-
-                    <div class="field" style="grid-column: 1 / -1;">
-                        <label>Emergency Contact's Home Address</label>
-                        <div style="display: flex; gap: 16px; align-items: flex-start;">
-                            <input type="text" name="emergency_address" id="emergencyAddressInput" placeholder="" style="flex: 1;">
-                            <label style="display:flex; gap:8px; align-items:center; cursor:pointer; white-space: nowrap; margin-top: 2px;">
-                                <input type="checkbox" id="sameEmergencyCheckbox" name="same_emergency_address" value="1">
-                                Same as home
-                            </label>
+                        <div class="field">
+                            <label>Birthdate</label>
+                            <input type="date" name="birthdate" required>
                         </div>
                     </div>
 
-                    <div class="field">
-                        <label>Telephone Number</label>
-                        <input type="text" name="emergency_telephone" placeholder="">
-                    </div>
-                    <div class="field">
-                        <label>Cellphone Number</label>
-                        <input type="text" name="emergency_cellphone" placeholder="">
+                    <div class="wizard-grid-4" style="margin-top: 12px;">
+                        <div class="field">
+                            <label>Age</label>
+                            <input type="number" name="age" placeholder="Age">
+                        </div>
+                        <div class="field">
+                            <label>Gender</label>
+                            <select name="gender" required>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="others">Others</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Height</label>
+                            <input type="number" step="0.01" name="height" placeholder="e.g. 1.67m">
+                        </div>
+                        <div class="field">
+                            <label>Weight</label>
+                            <input type="number" step="0.1" name="weight" placeholder="e.g. 65kg">
+                        </div>
                     </div>
 
-                    <div class="field">
-                        <label>Chief Complaint</label>
-                        <textarea name="chief_complaint" placeholder=""></textarea>
+                    <div class="wizard-grid-4" style="margin-top: 12px;">
+                        <div class="field">
+                            <label>Civil Status</label>
+                            <select name="civil_status" required>
+                                <option value="single">Single</option>
+                                <option value="married">Married</option>
+                                <option value="widowed">Widowed</option>
+                                <option value="legally separated">Legally separated</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Religion</label>
+                            <input type="text" name="religion" placeholder="Religion">
+                        </div>
+                        <div class="field">
+                            <label>Occupation</label>
+                            <input type="text" name="occupation" placeholder="Occupation">
+                        </div>
+                        <div class="field">
+                            <label>Nationality</label>
+                            <input type="text" name="nationality" placeholder="Nationality">
+                        </div>
                     </div>
-                    <div class="field">
-                        <label>Present Illness</label>
-                        <textarea name="present_illness" placeholder=""></textarea>
-                    </div>
-                </div>
-            </section>
 
-            <!-- PAGE 3 -->
-            <section class="wizard-step" data-step="3">
-                <div class="wizard-grid-2">
-                    <div class="field">
-                        <label>Frequency of Dental Visit</label>
-                        <select name="frequency_visit">
-                            <option value="every 6 months">Every 6 months</option>
-                            <option value="once a year">Once a year</option>
-                            <option value="rarely">Rarely</option>
-                        </select>
+                    <div class="wizard-grid-2" style="margin-top: 12px;">
+                        <div class="field" style="grid-column: 1 / -1;">
+                            <label>Home Address</label>
+                            <input type="text" name="home_address" placeholder="Home Address">
+                        </div>
+                        <div class="field">
+                            <label>Telephone Number</label>
+                            <input type="text" name="patient_telephone" placeholder="Telephone Number">
+                        </div>
+                        <div class="field">
+                            <label>Cellphone Number</label>
+                            <input type="text" name="patient_cellphone" placeholder="Cellphone Number">
+                        </div>
                     </div>
-                    <div class="field">
-                        <label>Date of Last Dental Visit</label>
-                        <input type="date" name="last_visit">
-                    </div>
-                    <div class="field">
-                        <label>Procedure(s)/done on Last Dental Visit</label>
-                        <input type="text" name="last_procedures" placeholder="">
-                    </div>
-                    <div class="field">
-                        <label>Complication(s) during and/or after dental procedure</label>
-                        <input type="text" name="procedure_complications" placeholder="">
-                    </div>
-                </div>
+                </section>
 
-                <div class="wizard-grid-2" style="margin-top: 12px;">
-                    <div class="field">
-                        <label>Physician's Name</label>
-                        <input type="text" name="physician_name" placeholder="">
-                    </div>
-                    <div class="field">
-                        <label>Physician's Office Number</label>
-                        <input type="text" name="physician_contact" placeholder="">
-                    </div>
-                    <div class="field" style="grid-column: 1 / -1;">
-                        <label>Physician's Office Address</label>
-                        <input type="text" name="physician_address" placeholder="">
-                    </div>
-                </div>
-            </section>
+                <!-- PAGE 2 -->
+                <section class="wizard-step" data-step="2">
+                    <div class="wizard-grid-2">
+                        <div class="field">
+                            <label>Emergency Contact Person</label>
+                            <input type="text" name="emergency_person" placeholder="">
+                        </div>
+                        <div class="field">
+                            <label>Relationship to Patient</label>
+                            <input type="text" name="relationship_to_patient" placeholder="">
+                        </div>
 
-            <!-- PAGE 4 -->
-            <section class="wizard-step" data-step="4">
-                <!-- <div style="margin: 20px;"> -->
+                        <div class="field" style="grid-column: 1 / -1;">
+                            <label>Emergency Contact's Home Address</label>
+                            <div style="display: flex; gap: 16px; align-items: flex-start;">
+                                <input type="text" name="emergency_address" id="emergencyAddressInput" placeholder="" style="flex: 1;">
+                                <label style="display:flex; gap:8px; align-items:center; cursor:pointer; white-space: nowrap; margin-top: 2px;">
+                                    <input type="checkbox" id="sameEmergencyCheckbox" name="same_emergency_address" value="1">
+                                    Same as home
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label>Telephone Number</label>
+                            <input type="text" name="emergency_telephone" placeholder="">
+                        </div>
+                        <div class="field">
+                            <label>Cellphone Number</label>
+                            <input type="text" name="emergency_cellphone" placeholder="">
+                        </div>
+
+                        <div class="field">
+                            <label>Chief Complaint</label>
+                            <textarea name="chief_complaint" placeholder=""></textarea>
+                        </div>
+                        <div class="field">
+                            <label>Present Illness</label>
+                            <textarea name="present_illness" placeholder=""></textarea>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 3 -->
+                <section class="wizard-step" data-step="3">
+                    <div class="wizard-grid-2">
+                        <div class="field">
+                            <label>Frequency of Dental Visit</label>
+                            <select name="frequency_visit">
+                                <option value="every 6 months">Every 6 months</option>
+                                <option value="once a year">Once a year</option>
+                                <option value="rarely">Rarely</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Date of Last Dental Visit</label>
+                            <input type="date" name="last_visit">
+                        </div>
+                        <div class="field">
+                            <label>Procedure(s)/done on Last Dental Visit</label>
+                            <input type="text" name="last_procedures" placeholder="">
+                        </div>
+                        <div class="field">
+                            <label>Complication(s) during and/or after dental procedure</label>
+                            <input type="text" name="procedure_complications" placeholder="">
+                        </div>
+                    </div>
+
+                    <div class="wizard-grid-2" style="margin-top: 12px;">
+                        <div class="field">
+                            <label>Physician's Name</label>
+                            <input type="text" name="physician_name" placeholder="">
+                        </div>
+                        <div class="field">
+                            <label>Physician's Office Number</label>
+                            <input type="text" name="physician_contact" placeholder="">
+                        </div>
+                        <div class="field" style="grid-column: 1 / -1;">
+                            <label>Physician's Office Address</label>
+                            <input type="text" name="physician_address" placeholder="">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 4 -->
+                <section class="wizard-step" data-step="4">
+                    <!-- <div style="margin: 20px;"> -->
                     <div class="field" style="margin-bottom: 15px;">
                         <label>In good health?</label>
                         <input type="hidden" name="good_health" data-bool-group="good_health" value="0">
@@ -302,230 +304,233 @@ $isSuperadmin = ($username === 'admin1');
                             </div>
                         </div>
                     </div>
-                <!-- </div> -->
-            </section>
+                    <!-- </div> -->
+                </section>
 
-            <!-- PAGE 5 -->
-            <section class="wizard-step" data-step="5">
-                <div class="wizard-grid-2">
-                    <div class="field">
-                        <label>Using tobacco products?</label>
-                        <input type="hidden" name="using_tobacco" data-bool-group="using_tobacco" value="0">
-                        <div class="choice-row">
-                            <div class="choice" data-bool-group="using_tobacco" data-bool-value="1">Yes</div>
-                            <div class="choice" data-bool-group="using_tobacco" data-bool-value="0">No</div>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label>Using alcohol, cocaine, or other dangerous drugs?</label>
-                        <input type="hidden" name="using_alcohol" data-bool-group="using_alcohol" value="0">
-                        <div class="choice-row">
-                            <div class="choice" data-bool-group="using_alcohol" data-bool-value="1">Yes</div>
-                            <div class="choice" data-bool-group="using_alcohol" data-bool-value="0">No</div>
-                        </div>
-                    </div>
-
-                    <div class="field" style="grid-column: 1 / -1;">
-                        <label>Allergic to the following:</label>
-                        <div class="checkbox-grid">
-                            <label class="check"><input type="checkbox" name="allergies[]" value="Local anesthetic (ex. Lidocaine)"> Local anesthetic (ex. Lidocaine)</label>
-                            <label class="check"><input type="checkbox" name="allergies[]" value="Penicillin Antibiotics"> Penicillin Antibiotics</label>
-                            <label class="check"><input type="checkbox" name="allergies[]" value="Aspirin"> Aspirin</label>
-                            <label class="check"><input type="checkbox" name="allergies[]" value="Latex"> Latex</label>
-                            <label class="check"><input type="checkbox" name="allergies[]" value="Others"> Others</label>
-                        </div>
-
-                        <div class="wizard-grid-2" style="margin-top: 10px;">
-                            <div class="field" style="grid-column: 1 / -1;">
-                                <label>Other allergies</label>
-                                <input type="text" name="allergies_others" placeholder="Other allergies">
+                <!-- PAGE 5 -->
+                <section class="wizard-step" data-step="5">
+                    <div class="wizard-grid-2">
+                        <div class="field">
+                            <label>Using tobacco products?</label>
+                            <input type="hidden" name="using_tobacco" data-bool-group="using_tobacco" value="0">
+                            <div class="choice-row">
+                                <div class="choice" data-bool-group="using_tobacco" data-bool-value="1">Yes</div>
+                                <div class="choice" data-bool-group="using_tobacco" data-bool-value="0">No</div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- PAGE 6 -->
-            <section class="wizard-step" data-step="6">
-                <div class="wizard-grid-2">
-                    <div class="field">
-                        <label>For women only: Pregnant?</label>
-                        <input type="hidden" name="pregnant" data-bool-group="pregnant" value="0">
-                        <div class="choice-row">
-                            <div class="choice" data-bool-group="pregnant" data-bool-value="1">Yes</div>
-                            <div class="choice" data-bool-group="pregnant" data-bool-value="0">No</div>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label>Nursing?</label>
-                        <input type="hidden" name="nursing" data-bool-group="nursing" value="0">
-                        <div class="choice-row">
-                            <div class="choice" data-bool-group="nursing" data-bool-value="1">Yes</div>
-                            <div class="choice" data-bool-group="nursing" data-bool-value="0">No</div>
-                        </div>
-                    </div>
-
-                    <div class="field" style="grid-column: 1 / -1;">
-                        <label>Taking birth control pills?</label>
-                        <input type="hidden" name="bc_pills" data-bool-group="bc_pills" value="0">
-                        <div class="choice-row">
-                            <div class="choice" data-bool-group="bc_pills" data-bool-value="1">Yes</div>
-                            <div class="choice" data-bool-group="bc_pills" data-bool-value="0">No</div>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label>Blood Type</label>
-                        <select name="blood_type">
-                            <option value="unknown">Unknown</option>
-                            <option value="A+">A+</option>
-                            <option value="A-">A-</option>
-                            <option value="B+">B+</option>
-                            <option value="B-">B-</option>
-                            <option value="AB+">AB+</option>
-                            <option value="AB-">AB-</option>
-                            <option value="O+">O+</option>
-                            <option value="O-">O-</option>
-                        </select>
-                    </div>
-                    <div class="field">
-                        <label>Blood Pressure</label>
-                        <input type="text" name="blood_pressure" placeholder="">
-                    </div>
-                    <div class="field">
-                        <label>Pulse Rate</label>
-                        <input type="text" name="pulse_rate" placeholder="">
-                    </div>
-                    <div class="field">
-                        <label>Respiratory Rate</label>
-                        <input type="text" name="respiratory_rate" placeholder="">
-                    </div>
-                    <div class="field" style="grid-column: 1 / -1;">
-                        <label>Body Temperature</label>
-                        <input type="text" name="body_temp" placeholder="">
-                    </div>
-                </div>
-            </section>
-
-            <!-- PAGE 7 -->
-            <section class="wizard-step" data-step="7">
-                <div class="wizard-grid-2">
-                    <div class="field" style="grid-column: 1 / -1;">
-                        <label>Do you have or had any of the following?</label>
-                        <div class="checkbox-grid" style="grid-template-columns: repeat(3, 1fr);">
-                            <?php foreach ($conditions as $c): ?>
-                                <label class="check">
-                                    <input type="checkbox" name="patient_conditions[]" value="<?= (int)$c['condition_id'] ?>">
-                                    <?= htmlspecialchars((string)$c['condition_name']) ?>
-                                </label>
-                            <?php endforeach; ?>
+                        <div class="field">
+                            <label>Using alcohol, cocaine, or other dangerous drugs?</label>
+                            <input type="hidden" name="using_alcohol" data-bool-group="using_alcohol" value="0">
+                            <div class="choice-row">
+                                <div class="choice" data-bool-group="using_alcohol" data-bool-value="1">Yes</div>
+                                <div class="choice" data-bool-group="using_alcohol" data-bool-value="0">No</div>
+                            </div>
                         </div>
 
-                        <div class="field" style="grid-column: 1 / -1; margin-top: 12px;">
-                            <div style="display: flex; gap: 16px; align-items: flex-start;">
-                                <label style="display:flex; gap:8px; align-items:center; cursor:pointer; white-space: nowrap; margin-top: 2px;">
-                                    <input type="checkbox" name="conditions_other" value="1">
-                                    Other diseases?
-                                </label>
-                                <div style="flex: 1;">
-                                    <input type="text" name="conditions_other_text" placeholder="Type here..." style="width: 100%;">
+                        <div class="field" style="grid-column: 1 / -1;">
+                            <label>Allergic to the following:</label>
+                            <div class="checkbox-grid">
+                                <label class="check"><input type="checkbox" name="allergies[]" value="Local anesthetic (ex. Lidocaine)"> Local anesthetic (ex. Lidocaine)</label>
+                                <label class="check"><input type="checkbox" name="allergies[]" value="Penicillin Antibiotics"> Penicillin Antibiotics</label>
+                                <label class="check"><input type="checkbox" name="allergies[]" value="Aspirin"> Aspirin</label>
+                                <label class="check"><input type="checkbox" name="allergies[]" value="Latex"> Latex</label>
+                                <label class="check"><input type="checkbox" name="allergies[]" value="Others"> Others</label>
+                            </div>
+
+                            <div class="wizard-grid-2" style="margin-top: 10px;">
+                                <div class="field" style="grid-column: 1 / -1;">
+                                    <label>Other allergies</label>
+                                    <input type="text" name="allergies_others" placeholder="Other allergies">
                                 </div>
                             </div>
                         </div>
                     </div>
+                </section>
+
+                <!-- PAGE 6 -->
+                <section class="wizard-step" data-step="6">
+                    <div class="wizard-grid-2">
+                        <div class="field">
+                            <label>For women only: Pregnant?</label>
+                            <input type="hidden" name="pregnant" data-bool-group="pregnant" value="0">
+                            <div class="choice-row">
+                                <div class="choice" data-bool-group="pregnant" data-bool-value="1">Yes</div>
+                                <div class="choice" data-bool-group="pregnant" data-bool-value="0">No</div>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label>Nursing?</label>
+                            <input type="hidden" name="nursing" data-bool-group="nursing" value="0">
+                            <div class="choice-row">
+                                <div class="choice" data-bool-group="nursing" data-bool-value="1">Yes</div>
+                                <div class="choice" data-bool-group="nursing" data-bool-value="0">No</div>
+                            </div>
+                        </div>
+
+                        <div class="field" style="grid-column: 1 / -1;">
+                            <label>Taking birth control pills?</label>
+                            <input type="hidden" name="bc_pills" data-bool-group="bc_pills" value="0">
+                            <div class="choice-row">
+                                <div class="choice" data-bool-group="bc_pills" data-bool-value="1">Yes</div>
+                                <div class="choice" data-bool-group="bc_pills" data-bool-value="0">No</div>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label>Blood Type</label>
+                            <select name="blood_type">
+                                <option value="unknown">Unknown</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Blood Pressure</label>
+                            <input type="text" name="blood_pressure" placeholder="">
+                        </div>
+                        <div class="field">
+                            <label>Pulse Rate</label>
+                            <input type="text" name="pulse_rate" placeholder="">
+                        </div>
+                        <div class="field">
+                            <label>Respiratory Rate</label>
+                            <input type="text" name="respiratory_rate" placeholder="">
+                        </div>
+                        <div class="field" style="grid-column: 1 / -1;">
+                            <label>Body Temperature</label>
+                            <input type="text" name="body_temp" placeholder="">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGE 7 -->
+                <section class="wizard-step" data-step="7">
+                    <div class="wizard-grid-2">
+                        <div class="field" style="grid-column: 1 / -1;">
+                            <label>Do you have or had any of the following?</label>
+                            <div class="checkbox-grid" style="grid-template-columns: repeat(3, 1fr);">
+                                <?php foreach ($conditions as $c): ?>
+                                    <label class="check">
+                                        <input type="checkbox" name="patient_conditions[]" value="<?= (int)$c['condition_id'] ?>">
+                                        <?= htmlspecialchars((string)$c['condition_name']) ?>
+                                    </label>
+                                <?php endforeach; ?>
+                            </div>
+
+                            <div class="field" style="grid-column: 1 / -1; margin-top: 12px;">
+                                <div style="display: flex; gap: 16px; align-items: flex-start;">
+                                    <label style="display:flex; gap:8px; align-items:center; cursor:pointer; white-space: nowrap; margin-top: 2px;">
+                                        <input type="checkbox" name="conditions_other" value="1">
+                                        Other diseases?
+                                    </label>
+                                    <div style="flex: 1;">
+                                        <input type="text" name="conditions_other_text" placeholder="Type here..." style="width: 100%;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="wizard-bottom" style="margin-top: 18px;">
+                    <a class="btn cancel" href="index.php">Cancel</a>
+                    <button class="btn back" id="wizardBackBtn">Back</button>
+                    <button class="btn next" id="wizardNextBtn">Next</button>
+                    <button class="btn save" type="submit">Save</button>
                 </div>
-            </section>
+            </form>
+        </div>
+    </main>
 
-            <div class="wizard-bottom" style="margin-top: 18px;">
-                <a class="btn cancel" href="index.php">Cancel</a>
-                <button class="btn back" id="wizardBackBtn">Back</button>
-                <button class="btn next" id="wizardNextBtn">Next</button>
-                <button class="btn save" type="submit">Save</button>
-            </div>
-        </form>
-    </div>
-</main>
+    <script src="scripts/patientWizard.js"></script>
+    <script>
+        // Function to update conditional field visibility based on boolean group values
+        function updateConditionalFields() {
+            document.querySelectorAll('[data-conditional-for]').forEach(field => {
+                const conditionalFor = field.getAttribute('data-conditional-for');
+                const conditionalValue = field.getAttribute('data-conditional-value');
+                const hiddenInput = document.querySelector(`input[data-bool-group="${conditionalFor}"]`);
 
-<script src="scripts/patientWizard.js"></script>
-<script>
-    // Function to update conditional field visibility based on boolean group values
-    function updateConditionalFields() {
-        document.querySelectorAll('[data-conditional-for]').forEach(field => {
-            const conditionalFor = field.getAttribute('data-conditional-for');
-            const conditionalValue = field.getAttribute('data-conditional-value');
-            const hiddenInput = document.querySelector(`input[data-bool-group="${conditionalFor}"]`);
-            
-            if (hiddenInput && hiddenInput.value === conditionalValue) {
-                field.style.display = 'block';
-            } else {
-                field.style.display = 'none';
-            }
-        });
-    }
-
-    // Initialize conditional fields on page load
-    document.addEventListener('DOMContentLoaded', updateConditionalFields);
-
-    // Update conditional fields whenever a choice button is clicked
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('choice')) {
-            setTimeout(updateConditionalFields, 0);
-        }
-    });
-
-    // Update conditional fields when wizard step changes
-    const observer = new MutationObserver(updateConditionalFields);
-    document.querySelectorAll('.wizard-step').forEach(step => {
-        observer.observe(step, { attributes: true, attributeFilter: ['class'] });
-    });
-
-    // Emergency address sync
-    (function(){
-        const sameCheckbox = document.getElementById('sameEmergencyCheckbox');
-        const emergencyAddress = document.getElementById('emergencyAddressInput');
-        const homeAddress = document.querySelector('input[name="home_address"]');
-
-        function sync(){
-            if(!sameCheckbox || !emergencyAddress || !homeAddress) return;
-            if(sameCheckbox.checked){
-                emergencyAddress.value = homeAddress.value || '';
-                emergencyAddress.disabled = true;
-            } else {
-                emergencyAddress.disabled = false;
-            }
-        }
-
-        if(sameCheckbox){
-            sameCheckbox.addEventListener('change', sync);
-        }
-        if(homeAddress){
-            homeAddress.addEventListener('input', function(){
-                if(sameCheckbox && sameCheckbox.checked){
-                    emergencyAddress.value = homeAddress.value || '';
+                if (hiddenInput && hiddenInput.value === conditionalValue) {
+                    field.style.display = 'block';
+                } else {
+                    field.style.display = 'none';
                 }
             });
         }
-        sync();
-    })();
 
-    // User dropdown menu
-    (function(){
-        const userArea = document.getElementById('userArea');
-        const userPill = document.getElementById('userPill');
-        const dropdown = document.getElementById('userDropdown');
-        if(!userArea || !userPill || !dropdown) return;
-        userPill.addEventListener('click', function(event){
-            event.stopPropagation();
-            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-        });
-        document.addEventListener('click', function(event){
-            if(!userArea.contains(event.target)){
-                dropdown.style.display = 'none';
+        // Initialize conditional fields on page load
+        document.addEventListener('DOMContentLoaded', updateConditionalFields);
+
+        // Update conditional fields whenever a choice button is clicked
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('choice')) {
+                setTimeout(updateConditionalFields, 0);
             }
         });
-    })();
-</script>
-</body>
-</html>
 
+        // Update conditional fields when wizard step changes
+        const observer = new MutationObserver(updateConditionalFields);
+        document.querySelectorAll('.wizard-step').forEach(step => {
+            observer.observe(step, {
+                attributes: true,
+                attributeFilter: ['class']
+            });
+        });
+
+        // Emergency address sync
+        (function() {
+            const sameCheckbox = document.getElementById('sameEmergencyCheckbox');
+            const emergencyAddress = document.getElementById('emergencyAddressInput');
+            const homeAddress = document.querySelector('input[name="home_address"]');
+
+            function sync() {
+                if (!sameCheckbox || !emergencyAddress || !homeAddress) return;
+                if (sameCheckbox.checked) {
+                    emergencyAddress.value = homeAddress.value || '';
+                    emergencyAddress.disabled = true;
+                } else {
+                    emergencyAddress.disabled = false;
+                }
+            }
+
+            if (sameCheckbox) {
+                sameCheckbox.addEventListener('change', sync);
+            }
+            if (homeAddress) {
+                homeAddress.addEventListener('input', function() {
+                    if (sameCheckbox && sameCheckbox.checked) {
+                        emergencyAddress.value = homeAddress.value || '';
+                    }
+                });
+            }
+            sync();
+        })();
+
+        // User dropdown menu
+        (function() {
+            const userArea = document.getElementById('userArea');
+            const userPill = document.getElementById('userPill');
+            const dropdown = document.getElementById('userDropdown');
+            if (!userArea || !userPill || !dropdown) return;
+            userPill.addEventListener('click', function(event) {
+                event.stopPropagation();
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            });
+            document.addEventListener('click', function(event) {
+                if (!userArea.contains(event.target)) {
+                    dropdown.style.display = 'none';
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>
