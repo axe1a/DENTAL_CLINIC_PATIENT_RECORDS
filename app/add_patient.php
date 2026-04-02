@@ -5,13 +5,6 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
 }
-
-$userId = (int)$_SESSION['user_id'];
-$stmt = $pdo->prepare("SELECT username FROM users WHERE user_id = ?");
-$stmt->execute([$userId]);
-$user = $stmt->fetch();
-$username = $user ? (string)$user['username'] : 'User';
-$isSuperadmin = ($username === 'admin1');
 ?>
 
 <!DOCTYPE html>
@@ -43,10 +36,10 @@ $isSuperadmin = ($username === 'admin1');
             </form>
 
             <div class="user-area" id="userArea">
-                <div class="user-pill" id="userPill">Hi, <?= htmlspecialchars($username) ?></div>
+                <div class="user-pill" id="userPill">Hi, <?= htmlspecialchars($_SESSION["username"]) ?></div>
                 <div class="user-dropdown" id="userDropdown" style="display:none">
                     <a class="dd-btn primary" href="./change_pass.php">Change Password</a>
-                    <?php if ($isSuperadmin): ?>
+                    <?php if ($_SESSION["user_role"] == "superadmin"): ?>
                         <a class="dd-btn primary" href="./personnel_list.php">Personnel List</a>
                     <?php endif; ?>
                     <a class="dd-btn danger" href="./logout.php">Logout</a>
@@ -513,24 +506,10 @@ $isSuperadmin = ($username === 'admin1');
             }
             sync();
         })();
-
-        // User dropdown menu
-        (function() {
-            const userArea = document.getElementById('userArea');
-            const userPill = document.getElementById('userPill');
-            const dropdown = document.getElementById('userDropdown');
-            if (!userArea || !userPill || !dropdown) return;
-            userPill.addEventListener('click', function(event) {
-                event.stopPropagation();
-                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-            });
-            document.addEventListener('click', function(event) {
-                if (!userArea.contains(event.target)) {
-                    dropdown.style.display = 'none';
-                }
-            });
-        })();
     </script>
+
+    <script src="scripts/jquery-4.0.0.min.js"></script>
+    <script src="scripts/userDropdownPillScript.js"></script>
 </body>
 
 </html>

@@ -5,7 +5,6 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -37,10 +36,10 @@ if (!isset($_SESSION['user_id'])) {
             </form>
 
             <div class="user-area" id="userArea">
-                <div class="user-pill" id="userPill">Hi, <?= htmlspecialchars($username) ?></div>
+                <div class="user-pill" id="userPill">Hi, <?= htmlspecialchars($_SESSION["username"]) ?></div>
                 <div class="user-dropdown" id="userDropdown" style="display:none">
                     <a class="dd-btn primary" href="./change_pass.php">Change Password</a>
-                    <?php if ($isSuperadmin): ?>
+                    <?php if ($_SESSION["user_role"] == "superadmin"): ?>
                         <a class="dd-btn primary" href="./personnel_list.php">Personnel List</a>
                     <?php endif; ?>
                     <a class="dd-btn danger" href="./logout.php">Logout</a>
