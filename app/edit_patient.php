@@ -77,7 +77,8 @@ $selectedConditions = $statement->fetchAll(PDO::FETCH_COLUMN);
                 </div>
             <?php endif; ?>
 
-            <form method="POST" action="edit_patient.php?patient_id=<?= (int)$patientId ?>" id="editPatientWizardForm">
+            <form method="POST" id="editPatientWizardForm">
+                <input type="hidden" name="patient_id" value="<?= $_GET['patient_id'] ?>">
                 <!-- PAGE 1 -->
                 <section class="wizard-step active" data-step="1">
                     <div class="wizard-grid-2">
@@ -186,7 +187,7 @@ $selectedConditions = $statement->fetchAll(PDO::FETCH_COLUMN);
                             <label>Emergency Contact's Home Address</label>
                             <div style="display: flex; gap: 16px; align-items: flex-start;">
                                 <input type="text" name="emergency_address" id="emergencyAddressInput"
-                                    value="<?= htmlspecialchars($patient["emergency_address"]) ?>" placeholder="" style="flex: 1;">
+                                    value="<?= htmlspecialchars((string)$patient["emergency_address"]) ?>" placeholder="" style="flex: 1;">
                                 <label style="display:flex; gap:8px; align-items:center; cursor:pointer; white-space: nowrap; margin-top: 2px;">
                                     <input type="checkbox" id="sameEmergencyCheckbox" name="same_emergency_address" value="1"
                                         <?= $patient["emergency_address"] == $patient["home_address"] ? 'checked' : '' ?>> Same as home
@@ -523,6 +524,7 @@ $selectedConditions = $statement->fetchAll(PDO::FETCH_COLUMN);
 
     <script src="scripts/jquery-4.0.0.min.js"></script>
     <script src="scripts/userDropdownPillScript.js"></script>
+    <script src="scripts/patientFormScript.js"></script>
 </body>
 
 </html>
