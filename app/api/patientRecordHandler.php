@@ -13,6 +13,26 @@ try {
     $allergies = $data["allergies[]"] ?? [];
     $conditions = $data["patient_conditions[]"] ?? [];
 
+    // Normalize array fields (accept comma-separated string or single value from some clients)
+    if (!is_array($allergies)) {
+        if (is_string($allergies)) {
+            $allergies = trim($allergies) === '' ? [] : explode(',', $allergies);
+        } else {
+            $allergies = [];
+        }
+    }
+    if (!is_array($conditions)) {
+        if (is_string($conditions)) {
+            $conditions = trim($conditions) === '' ? [] : explode(',', $conditions);
+        } else {
+            $conditions = [];
+        }
+    }
+
+    // Cast items to int where appropriate and remove empty values
+    $allergies = array_values(array_filter(array_map('intval', (array)$allergies)));
+    $conditions = array_values(array_filter(array_map('intval', (array)$conditions)));
+
     // INSERT PATIENT RECORD
     $stmt = $pdo->prepare("
         INSERT INTO patient_records (

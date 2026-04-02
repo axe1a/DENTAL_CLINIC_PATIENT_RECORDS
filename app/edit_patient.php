@@ -473,6 +473,9 @@ $selectedConditions = $statement->fetchAll(PDO::FETCH_COLUMN);
 
                             <div class="field" style="grid-column: 1 / -1; margin-top: 12px;">
                                 <div style="display: flex; gap: 16px; align-items: flex-start;">
+                                    <label style="display:flex; gap:8px; align-items:center; cursor:pointer; white-space: nowrap; margin-top: 2px;">
+                                        Other diseases?
+                                    </label>
                                     <div style="flex: 1;">
                                         <input type="text" name="conditions_other_text" placeholder="Type here..." style="width: 100%;"
                                             value="<?= htmlspecialchars((string)($patient['conditions_other_text'] ?? '')) ?>">
