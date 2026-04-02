@@ -199,6 +199,22 @@ if ($action === "editPatientRecord") {
         $allergies = $data["allergies[]"] ?? [];
         $conditions = $data["patient_conditions[]"] ?? [];
 
+        // Normalize array fields (accept comma-separated string or single value from some clients)
+        if (!is_array($allergies)) {
+            if (is_string($allergies)) {
+                $allergies = trim($allergies) === '' ? [] : explode(',', $allergies);
+            } else {
+                $allergies = [];
+            }
+        }
+        if (!is_array($conditions)) {
+            if (is_string($conditions)) {
+                $conditions = trim($conditions) === '' ? [] : explode(',', $conditions);
+            } else {
+                $conditions = [];
+            }
+        }
+
         // UPDATE patient record
         $fields = [
             "patient_name",
