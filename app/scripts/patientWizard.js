@@ -8,6 +8,25 @@
     return Array.from(document.querySelectorAll(sel));
   }
 
+  function validateStep(step) {
+    const stepEl = qs(`.wizard-step[data-step="${step}"]`);
+    if (!stepEl) return true;
+
+    const requiredInputs = stepEl.querySelectorAll('input[required], select[required], textarea[required]');
+    let valid = true;
+
+    requiredInputs.forEach(input => {
+      if (!input.value.trim()) {
+        input.style.borderColor = 'red';
+        valid = false;
+      } else {
+        input.style.borderColor = '';
+      }
+    });
+
+    return valid;
+  }
+
   function showStep(step) {
     const steps = qsa(".wizard-step");
     steps.forEach((el) => {
@@ -20,10 +39,15 @@
 
     const backBtn = qs("#wizardBackBtn");
     const nextBtn = qs("#wizardNextBtn");
+    const saveBtn = qs(".btn.save");
     const maxStep = steps.length ? Math.max(...steps.map((el) => Number(el.getAttribute("data-step")) || 1)) : 7;
 
     if (backBtn) backBtn.disabled = step <= 1;
     if (nextBtn) nextBtn.disabled = step >= maxStep;
+    if (saveBtn) {
+      saveBtn.disabled = step !== maxStep;
+      saveBtn.style.display = step === maxStep ? '' : 'none';
+    }
   }
 
   function updateConditional(groupName) {
@@ -82,6 +106,11 @@
     if (nextBtn) {
       nextBtn.addEventListener("click", (e) => {
         e.preventDefault();
+        if (!validateStep(current)) {
+          // Optionally show a message
+          alert('Please fill in all required fields before proceeding.');
+          return;
+        }
         current += 1;
         showStep(current);
       });

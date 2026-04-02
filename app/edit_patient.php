@@ -6,7 +6,6 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-
 $statement = $pdo->prepare("
     UPDATE patient_records
     SET last_opened = datetime('now')
@@ -463,7 +462,6 @@ $patient = $pdo->query(
                 </section>
 
                 <div class="wizard-bottom" style="margin-top: 18px;">
-                    <div class="page-counter" id="pageCounter">page 1</div>
                     <a class="btn cancel" href="index.php">Cancel</a>
                     <button class="btn back" id="wizardBackBtn">Back</button>
                     <button class="btn next" id="wizardNextBtn">Next</button>
