@@ -259,79 +259,79 @@ $selectedConditions = $statement->fetchAll(PDO::FETCH_COLUMN);
 
                 <!-- PAGE 4 -->
                 <section class="wizard-step" data-step="4">
-                    <div class="wizard-grid-2">
-                        <div class="field">
-                            <label>In good health?</label>
-                            <input type="hidden" name="good_health" data-bool-group="good_health"
+                    <!-- <div style="margin: 20px;"> -->
+                    <div class="field" style="margin-bottom: 15px;">
+                        <label>In good health?</label>
+                        <input type="hidden" name="good_health" data-bool-group="good_health"
                                 value="<?= ((int)($patient['good_health'] ?? 0) === 1) ? '1' : '0' ?>">
-                            <div class="choice-row">
-                                <div class="choice" data-bool-group="good_health" data-bool-value="1">Yes</div>
-                                <div class="choice" data-bool-group="good_health" data-bool-value="0">No</div>
-                            </div>
+                        <div class="choice-row">
+                            <div class="choice" data-bool-group="good_health" data-bool-value="1">Yes</div>
+                            <div class="choice" data-bool-group="good_health" data-bool-value="0">No</div>
                         </div>
+                    </div>
 
-                        <div class="field">
-                            <label>Currently in medical treatment?</label>
-                            <input type="hidden" name="being_treated" data-bool-group="being_treated"
+                    <div class="field" style="margin-bottom: 15px;">
+                        <label>Currently in medical treatment?</label>
+                        <input type="hidden" name="being_treated" data-bool-group="being_treated"
                                 value="<?= ((int)($patient['being_treated'] ?? 0) === 1) ? '1' : '0' ?>">
+                        <div style="display: flex; gap: 16px; align-items: center;">
                             <div class="choice-row">
                                 <div class="choice" data-bool-group="being_treated" data-bool-value="1">Yes</div>
                                 <div class="choice" data-bool-group="being_treated" data-bool-value="0">No</div>
                             </div>
-
-                            <div class="field" data-conditional-for="being_treated" data-conditional-value="1" style="display:none; margin-top: 10px;">
-                                <label>if yes, what is the condition being treated?</label>
+                            <div data-conditional-for="being_treated" data-conditional-value="1" style="display:none; flex: 1;">
                                 <input type="text" name="what_condition" value="<?= htmlspecialchars((string)($patient['what_condition'] ?? '')) ?>" placeholder="Condition">
                             </div>
                         </div>
+                    </div>
 
-                        <div class="field">
-                            <label>Had serious illness or operation?</label>
-                            <input type="hidden" name="serious_illness" data-bool-group="serious_illness"
+                    <div class="field" style="margin-bottom: 15px;">
+                        <label>Had serious illness or operation?</label>
+                        <input type="hidden" name="serious_illness" data-bool-group="serious_illness"
                                 value="<?= ((int)($patient['serious_illness'] ?? 0) === 1) ? '1' : '0' ?>">
+                        <div style="display: flex; gap: 16px; align-items: center;">
                             <div class="choice-row">
                                 <div class="choice" data-bool-group="serious_illness" data-bool-value="1">Yes</div>
                                 <div class="choice" data-bool-group="serious_illness" data-bool-value="0">No</div>
                             </div>
-
-                            <div class="field" data-conditional-for="serious_illness" data-conditional-value="1" style="display:none; margin-top: 10px;">
-                                <label>If yes, what illness?</label>
+                            <div data-conditional-for="serious_illness" data-conditional-value="1" style="display:none; flex: 1;">
                                 <input type="text" name="what_illness" value="<?= htmlspecialchars((string)($patient['what_illness'] ?? '')) ?>" placeholder="Illness/Operation">
                             </div>
                         </div>
+                    </div>
 
-                        <div class="field">
-                            <label>Was hospitalized?</label>
-                            <input type="hidden" name="hospitalized" data-bool-group="hospitalized"
+                    <div class="field" style="margin-bottom: 15px;">
+                        <label>Was hospitalized?</label>
+                        <input type="hidden" name="hospitalized" data-bool-group="hospitalized"
                                 value="<?= ((int)($patient['hospitalized'] ?? 0) === 1) ? '1' : '0' ?>">
+                        <div style="display: flex; gap: 16px; align-items: center;">
                             <div class="choice-row">
                                 <div class="choice" data-bool-group="hospitalized" data-bool-value="1">Yes</div>
                                 <div class="choice" data-bool-group="hospitalized" data-bool-value="0">No</div>
                             </div>
-
-                            <div class="field" data-conditional-for="hospitalized" data-conditional-value="1" style="display:none; margin-top: 10px;">
-                                <label>If yes, when and why?</label>
+                            <div data-conditional-for="hospitalized" data-conditional-value="1" style="display:none; flex: 1;">
                                 <input type="text" name="when_why" value="<?= htmlspecialchars((string)($patient['when_why'] ?? '')) ?>" placeholder="When/Why">
                             </div>
                         </div>
+                    </div>
 
-                        <div class="field" style="grid-column: 1 / -1;">
-                            <label>Taking medications?</label>
-                            <input type="hidden" name="taking_medications" data-bool-group="taking_medications"
+                    <div class="field" style="margin-bottom: 15px;">
+                        <label>Taking medications?</label>
+                        <input type="hidden" name="taking_medications" data-bool-group="taking_medications"
                                 value="<?= ((int)($patient['taking_medications'] ?? 0) === 1) ? '1' : '0' ?>">
+                        <div style="display: flex; gap: 16px; align-items: center;">
                             <div class="choice-row">
                                 <div class="choice" data-bool-group="taking_medications" data-bool-value="1">Yes</div>
                                 <div class="choice" data-bool-group="taking_medications" data-bool-value="0">No</div>
                             </div>
-
-                            <div class="field" data-conditional-for="taking_medications" data-conditional-value="1" style="display:none; margin-top: 10px;">
-                                <label>If yes, specify medications</label>
+                            <div data-conditional-for="taking_medications" data-conditional-value="1" style="display:none; flex: 1;">
                                 <input type="text" name="what_medications" value="<?= htmlspecialchars((string)($patient['what_medications'] ?? '')) ?>" placeholder="Medications">
                             </div>
                         </div>
                     </div>
+                    <!-- </div> -->
                 </section>
-
+                
                 <!-- PAGE 5 -->
                 <section class="wizard-step" data-step="5">
                     <div class="wizard-grid-2">
