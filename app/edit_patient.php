@@ -6,21 +6,24 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-$statement = $pdo->prepare("
-    UPDATE patient_records
-    SET last_opened = datetime('now')
-    WHERE patient_id = :patient_id
-");
-$statement->execute([
-    ":patient_id" => $_GET['patient_id']
-]);
+// Update record's last_opened date time for sorting
+$statement = $pdo->prepare("UPDATE patient_records SET last_opened = datetime('now') WHERE patient_id = :patient_id");
+$statement->execute([":patient_id" => $_GET['patient_id']]);
 
-$patient = $pdo->query(
-    "
-    SELECT *
-    FROM patient_records
-    "
-)->fetch();
+// Gets patient record data
+$statement = $pdo->prepare("SELECT * FROM patient_records WHERE patient_id = :patient_id");
+$statement->execute([":patient_id" => $_GET['patient_id']]);
+$patient = $statement->fetch(PDO::FETCH_ASSOC);
+
+// Gets patient allergies data
+$statement = $pdo->prepare("SELECT allergy_id FROM patient_allergies WHERE patient_id = :patient_id");
+$statement->execute([":patient_id" => $_GET['patient_id']]);
+$selectedAllergies = $statement->fetchAll(PDO::FETCH_COLUMN);
+
+// Gets patient medical conditions data
+$statement = $pdo->prepare("SELECT condition_id FROM patient_conditions WHERE patient_id = :patient_id");
+$statement->execute([":patient_id" => $_GET['patient_id']]);
+$selectedConditions = $statement->fetchAll(PDO::FETCH_COLUMN);
 ?>
 
 <!DOCTYPE html>
@@ -180,11 +183,13 @@ $patient = $pdo->query(
                         </div>
 
                         <div class="field" style="grid-column: 1 / -1;">
-                            <label>Home Address</label>
+                            <label>Emergency Contact's Home Address</label>
                             <div style="display: flex; gap: 16px; align-items: flex-start;">
-                                <input type="text" name="emergency_address" id="emergencyAddressInput" value="<?= htmlspecialchars($emergencyAddress) ?>" placeholder="" style="flex: 1;">
+                                <input type="text" name="emergency_address" id="emergencyAddressInput"
+                                    value="<?= htmlspecialchars($patient["emergency_address"]) ?>" placeholder="" style="flex: 1;">
                                 <label style="display:flex; gap:8px; align-items:center; cursor:pointer; white-space: nowrap; margin-top: 2px;">
-                                    <input type="checkbox" id="sameEmergencyCheckbox" name="same_emergency_address" value="1" <?= $sameEmergencyInitial ? 'checked' : '' ?>> Same as home
+                                    <input type="checkbox" id="sameEmergencyCheckbox" name="same_emergency_address" value="1"
+                                        <?= $patient["emergency_address"] == $patient["home_address"] ? 'checked' : '' ?>> Same as home
                                 </label>
                             </div>
                         </div>
@@ -256,7 +261,8 @@ $patient = $pdo->query(
                     <div class="wizard-grid-2">
                         <div class="field">
                             <label>In good health?</label>
-                            <input type="hidden" name="good_health" data-bool-group="good_health" value="<?= ((int)($patient['good_health'] ?? 0) === 1) ? '1' : '0' ?>">
+                            <input type="hidden" name="good_health" data-bool-group="good_health"
+                                value="<?= ((int)($patient['good_health'] ?? 0) === 1) ? '1' : '0' ?>">
                             <div class="choice-row">
                                 <div class="choice" data-bool-group="good_health" data-bool-value="1">Yes</div>
                                 <div class="choice" data-bool-group="good_health" data-bool-value="0">No</div>
@@ -265,7 +271,8 @@ $patient = $pdo->query(
 
                         <div class="field">
                             <label>Currently in medical treatment?</label>
-                            <input type="hidden" name="being_treated" data-bool-group="being_treated" value="<?= ((int)($patient['being_treated'] ?? 0) === 1) ? '1' : '0' ?>">
+                            <input type="hidden" name="being_treated" data-bool-group="being_treated"
+                                value="<?= ((int)($patient['being_treated'] ?? 0) === 1) ? '1' : '0' ?>">
                             <div class="choice-row">
                                 <div class="choice" data-bool-group="being_treated" data-bool-value="1">Yes</div>
                                 <div class="choice" data-bool-group="being_treated" data-bool-value="0">No</div>
@@ -279,7 +286,8 @@ $patient = $pdo->query(
 
                         <div class="field">
                             <label>Had serious illness or operation?</label>
-                            <input type="hidden" name="serious_illness" data-bool-group="serious_illness" value="<?= ((int)($patient['serious_illness'] ?? 0) === 1) ? '1' : '0' ?>">
+                            <input type="hidden" name="serious_illness" data-bool-group="serious_illness"
+                                value="<?= ((int)($patient['serious_illness'] ?? 0) === 1) ? '1' : '0' ?>">
                             <div class="choice-row">
                                 <div class="choice" data-bool-group="serious_illness" data-bool-value="1">Yes</div>
                                 <div class="choice" data-bool-group="serious_illness" data-bool-value="0">No</div>
@@ -293,7 +301,8 @@ $patient = $pdo->query(
 
                         <div class="field">
                             <label>Was hospitalized?</label>
-                            <input type="hidden" name="hospitalized" data-bool-group="hospitalized" value="<?= ((int)($patient['hospitalized'] ?? 0) === 1) ? '1' : '0' ?>">
+                            <input type="hidden" name="hospitalized" data-bool-group="hospitalized"
+                                value="<?= ((int)($patient['hospitalized'] ?? 0) === 1) ? '1' : '0' ?>">
                             <div class="choice-row">
                                 <div class="choice" data-bool-group="hospitalized" data-bool-value="1">Yes</div>
                                 <div class="choice" data-bool-group="hospitalized" data-bool-value="0">No</div>
@@ -307,7 +316,8 @@ $patient = $pdo->query(
 
                         <div class="field" style="grid-column: 1 / -1;">
                             <label>Taking medications?</label>
-                            <input type="hidden" name="taking_medications" data-bool-group="taking_medications" value="<?= ((int)($patient['taking_medications'] ?? 0) === 1) ? '1' : '0' ?>">
+                            <input type="hidden" name="taking_medications" data-bool-group="taking_medications"
+                                value="<?= ((int)($patient['taking_medications'] ?? 0) === 1) ? '1' : '0' ?>">
                             <div class="choice-row">
                                 <div class="choice" data-bool-group="taking_medications" data-bool-value="1">Yes</div>
                                 <div class="choice" data-bool-group="taking_medications" data-bool-value="0">No</div>
@@ -326,7 +336,8 @@ $patient = $pdo->query(
                     <div class="wizard-grid-2">
                         <div class="field">
                             <label>Using tobacco products?</label>
-                            <input type="hidden" name="using_tobacco" data-bool-group="using_tobacco" value="<?= ((int)($patient['using_tobacco'] ?? 0) === 1) ? '1' : '0' ?>">
+                            <input type="hidden" name="using_tobacco" data-bool-group="using_tobacco"
+                                value="<?= ((int)($patient['using_tobacco'] ?? 0) === 1) ? '1' : '0' ?>">
                             <div class="choice-row">
                                 <div class="choice" data-bool-group="using_tobacco" data-bool-value="1">Yes</div>
                                 <div class="choice" data-bool-group="using_tobacco" data-bool-value="0">No</div>
@@ -334,7 +345,8 @@ $patient = $pdo->query(
                         </div>
                         <div class="field">
                             <label>Using alcohol, cocaine, or other dangerous drugs?</label>
-                            <input type="hidden" name="using_alcohol" data-bool-group="using_alcohol" value="<?= ((int)($patient['using_alcohol'] ?? 0) === 1) ? '1' : '0' ?>">
+                            <input type="hidden" name="using_alcohol" data-bool-group="using_alcohol"
+                                value="<?= ((int)($patient['using_alcohol'] ?? 0) === 1) ? '1' : '0' ?>">
                             <div class="choice-row">
                                 <div class="choice" data-bool-group="using_alcohol" data-bool-value="1">Yes</div>
                                 <div class="choice" data-bool-group="using_alcohol" data-bool-value="0">No</div>
@@ -345,21 +357,28 @@ $patient = $pdo->query(
                             <label>Allergic to the following:</label>
                             <div class="checkbox-grid">
                                 <?php
-                                $has = function (string $needle) use ($allergiesArr) {
-                                    return in_array($needle, $allergiesArr, true);
-                                };
+                                $allergies = $pdo->query(
+                                    "
+                                    SELECT allergy_id, allergy_name
+                                    FROM medical_allergies
+                                    "
+                                )->fetchAll();
+
+                                foreach ($allergies as $allergy):
                                 ?>
-                                <label class="check"><input type="checkbox" name="allergies[]" value="Local anesthetic (ex. Lidocaine)" <?= $has('Local anesthetic (ex. Lidocaine)') ? 'checked' : '' ?>> Local anesthetic (ex. Lidocaine)</label>
-                                <label class="check"><input type="checkbox" name="allergies[]" value="Penicillin Antibiotics" <?= $has('Penicillin Antibiotics') ? 'checked' : '' ?>> Penicillin Antibiotics</label>
-                                <label class="check"><input type="checkbox" name="allergies[]" value="Aspirin" <?= $has('Aspirin') ? 'checked' : '' ?>> Aspirin</label>
-                                <label class="check"><input type="checkbox" name="allergies[]" value="Latex" <?= $has('Latex') ? 'checked' : '' ?>> Latex</label>
-                                <label class="check"><input type="checkbox" name="allergies[]" value="Others" <?= $has('Others') ? 'checked' : '' ?>> Others</label>
+                                    <label class="check">
+                                        <input type="checkbox" name="allergies[]"
+                                            value="<?= (int)$allergy['allergy_id'] ?>"
+                                            <?= in_array((int)$allergy['allergy_id'], $selectedAllergies, true) ? 'checked' : '' ?>>
+                                        <?= htmlspecialchars((string)$allergy['allergy_name']) ?>
+                                    </label>
+                                <?php endforeach; ?>
                             </div>
 
                             <div class="wizard-grid-2" style="margin-top: 10px;">
                                 <div class="field" style="grid-column: 1 / -1;">
                                     <label>Other allergies</label>
-                                    <input type="text" name="allergies_others" value="<?= htmlspecialchars((string)($patient['allergies_others'] ?? '')) ?>" placeholder="Other allergies">
+                                    <input type="text" name="allergies_other_text" value="<?= htmlspecialchars((string)($patient['allergies_other_text'] ?? '')) ?>" placeholder="Other allergies">
                                 </div>
                             </div>
                         </div>
@@ -436,7 +455,15 @@ $patient = $pdo->query(
                         <div class="field" style="grid-column: 1 / -1;">
                             <label>Do you have or had any of the following?</label>
                             <div class="checkbox-grid" style="grid-template-columns: repeat(3, 1fr);">
-                                <?php foreach ($conditions as $c): ?>
+                                <?php $conditions = $pdo->query(
+                                    "
+                                    SELECT condition_id, condition_name
+                                    FROM medical_conditions
+                                    "
+                                )->fetchAll();
+
+                                foreach ($conditions as $c):
+                                ?>
                                     <label class="check">
                                         <input type="checkbox" name="patient_conditions[]" value="<?= (int)$c['condition_id'] ?>" <?= in_array((int)$c['condition_id'], $selectedConditions, true) ? 'checked' : '' ?>>
                                         <?= htmlspecialchars((string)$c['condition_name']) ?>
@@ -444,17 +471,12 @@ $patient = $pdo->query(
                                 <?php endforeach; ?>
                             </div>
 
-                            <div class="wizard-grid-2" style="margin-top: 12px;">
-                                <div class="field">
-                                    <label>Other diseases?</label>
-                                    <label style="display:flex; gap:8px; align-items:center; cursor:pointer;">
-                                        <input type="checkbox" name="conditions_other" value="1">
-                                        Others
-                                    </label>
-                                </div>
-                                <div class="field">
-                                    <label>Other diseases:</label>
-                                    <input type="text" name="conditions_other_text" placeholder="Type here...">
+                            <div class="field" style="grid-column: 1 / -1; margin-top: 12px;">
+                                <div style="display: flex; gap: 16px; align-items: flex-start;">
+                                    <div style="flex: 1;">
+                                        <input type="text" name="conditions_other_text" placeholder="Type here..." style="width: 100%;"
+                                            value="<?= htmlspecialchars((string)($patient['conditions_other_text'] ?? '')) ?>">
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -10,11 +10,8 @@ try {
     $pdo->beginTransaction();
 
     // HANDLE ARRAY FIELDS
-    $allergies = isset($data["allergies"])
-        ? implode(",", (array)$data["allergies"])
-        : null;
-
-    $conditions = $data["patient_conditions"] ?? [];
+    $allergies = $data["allergies[]"] ?? [];
+    $conditions = $data["patient_conditions[]"] ?? [];
 
     // INSERT PATIENT RECORD
     $stmt = $pdo->prepare("
@@ -31,10 +28,12 @@ try {
             hospitalized, when_why,
             taking_medications, what_medications,
             
-            using_tobacco, using_alcohol, allergies, allergies_others,
+            using_tobacco, using_alcohol, allergies_other_text,
             
             pregnant, nursing, bc_pills,
-            blood_type, blood_pressure, pulse_rate, respiratory_rate, body_temp
+            blood_type, blood_pressure, pulse_rate, respiratory_rate, body_temp,
+
+            conditions_other_text
         )
         VALUES (
             :patient_name, :alert_level, :birthdate, :age, :gender, :civil_status, :religion, :occupation, :nationality, :height, :weight, :home_address, :patient_telephone, :patient_cellphone,
@@ -49,10 +48,12 @@ try {
             :hospitalized, :when_why,
             :taking_medications, :what_medications,
             
-            :using_tobacco, :using_alcohol, :allergies, :allergies_others,
+            :using_tobacco, :using_alcohol, :allergies_other_text,
             
             :pregnant, :nursing, :bc_pills,
-            :blood_type, :blood_pressure, :pulse_rate, :respiratory_rate, :body_temp
+            :blood_type, :blood_pressure, :pulse_rate, :respiratory_rate, :body_temp,
+
+            :conditions_other_text
         )
     ");
 
@@ -96,8 +97,7 @@ try {
         ":what_medications" => $data["what_medications"] ?? null,
         ":using_tobacco" => $data["using_tobacco"] ?? 0,
         ":using_alcohol" => $data["using_alcohol"] ?? 0,
-        ":allergies" => $allergies,
-        ":allergies_others" => $data["allergies_others"] ?? null,
+        ":allergies_other_text" => $data["allergies_other_text"] ?? null,
         ":pregnant" => $data["pregnant"] ?? 0,
         ":nursing" => $data["nursing"] ?? 0,
         ":bc_pills" => $data["bc_pills"] ?? 0,
@@ -105,10 +105,23 @@ try {
         ":blood_pressure" => $data["blood_pressure"] ?? null,
         ":pulse_rate" => $data["pulse_rate"] ?? null,
         ":respiratory_rate" => $data["respiratory_rate"] ?? null,
-        ":body_temp" => $data["body_temp"] ?? null
+        ":body_temp" => $data["body_temp"] ?? null,
+        ":conditions_other_text" => $data["conditions_other_text"] ?? null
     ]);
 
     $patientId = $pdo->lastInsertId();
+
+    // INSERT PATIENT ALLERGIES
+    if (!empty($allergies)) {
+        $stmt = $pdo->prepare("
+            INSERT INTO patient_allergies (patient_id, allergy_id)
+            VALUES (?, ?)
+        ");
+
+        foreach ($allergies as $allergyId) {
+            $stmt->execute([$patientId, $allergyId]);
+        }
+    }
 
     // INSERT PATIENT CONDITIONS
     if (!empty($conditions)) {

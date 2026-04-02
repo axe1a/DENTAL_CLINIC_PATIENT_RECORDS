@@ -65,8 +65,7 @@ CREATE TABLE IF NOT EXISTS patient_records (
     using_alcohol BOOLEAN,
 
     -- Allergies
-    allergies TEXT,
-    allergies_others TEXT,
+    allergies_other_text TEXT,
 
     -- Women-only
     pregnant BOOLEAN,
@@ -81,11 +80,34 @@ CREATE TABLE IF NOT EXISTS patient_records (
     respiratory_rate TEXT,
     body_temp TEXT,
 
+    conditions_other_text TEXT,
+
     -- X-ray Image File name
     xray_filename TEXT,
 
     -- Patient Record data
     last_opened TEXT DEFAULT (datetime('now'))
+);
+
+-- MEDICAL ALLERGIES MASTER LIST
+CREATE TABLE IF NOT EXISTS medical_allergies (
+    allergy_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    allergy_name TEXT NOT NULL UNIQUE
+);
+
+INSERT OR IGNORE INTO medical_allergies (allergy_name) VALUES
+('Local anesthetic (ex. Lidocaine)'),
+('Penicillin Antibiotics'),
+('Aspirin'),
+('Latex');
+
+-- PATIENT ↔ ALLERGIES (MANY-TO-MANY)
+CREATE TABLE IF NOT EXISTS patient_allergies (
+    patient_id INTEGER,
+    allergy_id INTEGER,
+    PRIMARY KEY (patient_id, allergy_id),
+    FOREIGN KEY (patient_id) REFERENCES patient_records(patient_id) ON DELETE CASCADE,
+    FOREIGN KEY (allergy_id) REFERENCES medical_allergies(allergy_id) ON DELETE CASCADE
 );
 
 -- MEDICAL CONDITIONS MASTER LIST
