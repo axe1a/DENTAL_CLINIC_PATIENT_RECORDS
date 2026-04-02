@@ -323,27 +323,16 @@ if (!isset($_SESSION['user_id'])) {
                         <div class="field" style="grid-column: 1 / -1;">
                             <label>Allergic to the following:</label>
                             <div class="checkbox-grid">
-                                <?php
-                                $allergies = $pdo->query(
-                                    "
-                                    SELECT allergy_id, allergy_name
-                                    FROM medical_allergies
-                                    "
-                                )->fetchAll();
-
-                                foreach ($allergies as $allergy):
-                                ?>
-                                    <label class="check">
-                                        <input type="checkbox" name="allergies[]" value="<?= (int)$allergy['allergy_id'] ?>">
-                                        <?= htmlspecialchars((string)$allergy['allergy_name']) ?>
-                                    </label>
-                                <?php endforeach; ?>
+                                <label class="check"><input type="checkbox" name="allergies[]" value="Local anesthetic (ex. Lidocaine)"> Local anesthetic (ex. Lidocaine)</label>
+                                <label class="check"><input type="checkbox" name="allergies[]" value="Penicillin Antibiotics"> Penicillin Antibiotics</label>
+                                <label class="check"><input type="checkbox" name="allergies[]" value="Aspirin"> Aspirin</label>
+                                <label class="check"><input type="checkbox" name="allergies[]" value="Latex"> Latex</label>
                             </div>
 
                             <div class="wizard-grid-2" style="margin-top: 10px;">
                                 <div class="field" style="grid-column: 1 / -1;">
                                     <label>Other allergies</label>
-                                    <input type="text" name="allergies_other_text" placeholder="Other allergies">
+                                    <input type="text" name="allergies_others" placeholder="Other allergies">
                                 </div>
                             </div>
                         </div>
@@ -438,10 +427,11 @@ if (!isset($_SESSION['user_id'])) {
 
                             <div class="field" style="grid-column: 1 / -1; margin-top: 12px;">
                                 <div style="display: flex; gap: 16px; align-items: flex-start;">
-                                    <div style="flex: 1;">
-                                        <input type="text" name="conditions_other_text" placeholder="Type here..." style="width: 100%;">
-                                    </div>
+                                    <label style="display:flex; gap:8px; align-items:center; cursor:pointer; white-space: nowrap; margin-top: 2px;">
+                                        Other diseases?
+                                    </label>
                                 </div>
+                                <input type="text" name="conditions_other_text" placeholder="Type here..." style="width: 100%;">
                             </div>
                         </div>
                     </div>

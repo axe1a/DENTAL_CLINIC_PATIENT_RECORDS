@@ -159,9 +159,10 @@ body{
 }
 
 .dash-grid{
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 260px;
   gap: 18px;
-  align-items: flex-start;
+  align-items: start;
 }
 
 .dash-left{
@@ -169,7 +170,7 @@ body{
 }
 
 .dash-right{
-  width: 260px;
+  width: 100%;
 }
 
 .section-title{
@@ -180,14 +181,19 @@ body{
 
 .patient-cards{
   display: grid;
-  grid-template-columns: repeat(4, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 14px;
+  width: 100%;
 }
 
 @media (max-width: 980px){
-  .patient-cards{ grid-template-columns: repeat(2, minmax(140px, 1fr)); }
-  .dash-grid{ flex-direction: column; }
-  .dash-right{ width: 100%; }
+  .dash-grid{ grid-template-columns: 1fr; }
+  .dash-right{ order: -1; width: 100%; }
+  .patient-cards{ grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+}
+
+@media (max-width: 640px){
+  .patient-cards{ grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
 }
 
 .patient-card{
@@ -486,7 +492,7 @@ body{
 
 .checkbox-grid{
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 8px 14px;
   margin-top: 10px;
 }

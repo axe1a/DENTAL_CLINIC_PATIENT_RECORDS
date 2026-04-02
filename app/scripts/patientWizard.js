@@ -44,10 +44,20 @@
 
     if (backBtn) backBtn.disabled = step <= 1;
     if (nextBtn) nextBtn.disabled = step >= maxStep;
+
+    const isEditMode = Boolean(qs("#editPatientWizardForm"));
     if (saveBtn) {
-      saveBtn.disabled = step !== maxStep;
-      saveBtn.style.display = step === maxStep ? '' : 'none';
+      if (isEditMode) {
+        saveBtn.disabled = false;
+        saveBtn.style.display = "";
+      } else {
+        saveBtn.disabled = step !== maxStep;
+        saveBtn.style.display = step === maxStep ? "" : "none";
+      }
     }
+
+    // Keep any selected values synced
+    syncBoolChoices();
   }
 
   function updateConditional(groupName) {
@@ -59,6 +69,19 @@
       const showValue = wrap.getAttribute("data-conditional-value");
       const shouldShow = forGroup === groupName && String(showValue) === val;
       wrap.style.display = shouldShow ? "" : "none";
+    });
+  }
+
+  function syncBoolChoices() {
+    const groups = new Set(qsa("input[type='hidden'][data-bool-group]").map((i) => i.getAttribute("data-bool-group")));
+    groups.forEach((g) => {
+      const current = qs(`input[type="hidden"][data-bool-group="${g}"]`);
+      const currentVal = current ? String(current.value) : "0";
+      qsa(`.choice[data-bool-group="${g}"]`).forEach((c) => {
+        const v = c.getAttribute("data-bool-value");
+        c.classList.toggle("on", String(v) === currentVal);
+      });
+      updateConditional(g);
     });
   }
 
@@ -82,17 +105,7 @@
       });
     });
 
-    // Set initial styles + conditional visibility.
-    const groups = new Set(qsa("input[type='hidden'][data-bool-group]").map((i) => i.getAttribute("data-bool-group")));
-    groups.forEach((g) => {
-      const current = qs(`input[type="hidden"][data-bool-group="${g}"]`);
-      const currentVal = current ? String(current.value) : "0";
-      qsa(`.choice[data-bool-group="${g}"]`).forEach((c) => {
-        const v = c.getAttribute("data-bool-value");
-        c.classList.toggle("on", String(v) === currentVal);
-      });
-      updateConditional(g);
-    });
+    syncBoolChoices();
   }
 
   function initWizard() {
