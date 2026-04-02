@@ -5,6 +5,23 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
 }
+
+
+$statement = $pdo->prepare("
+    UPDATE patient_records
+    SET last_opened = datetime('now')
+    WHERE patient_id = :patient_id
+");
+$statement->execute([
+    ":patient_id" => $_GET['patient_id']
+]);
+
+$patient = $pdo->query(
+    "
+    SELECT *
+    FROM patient_records
+    "
+)->fetch();
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +75,7 @@ if (!isset($_SESSION['user_id'])) {
                 </div>
             <?php endif; ?>
 
-            <form method="POST" action="edit_patient.php?patient_id=<?= (int)$patientId ?>" id="patientWizardForm">
+            <form method="POST" action="edit_patient.php?patient_id=<?= (int)$patientId ?>" id="editPatientWizardForm">
                 <!-- PAGE 1 -->
                 <section class="wizard-step active" data-step="1">
                     <div class="wizard-grid-2">
@@ -483,23 +500,9 @@ if (!isset($_SESSION['user_id'])) {
             sync();
         })();
     </script>
-    <script>
-        (function() {
-            const userArea = document.getElementById('userArea');
-            const userPill = document.getElementById('userPill');
-            const dropdown = document.getElementById('userDropdown');
-            if (!userArea || !userPill || !dropdown) return;
-            userPill.addEventListener('click', function(event) {
-                event.stopPropagation();
-                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-            });
-            document.addEventListener('click', function(event) {
-                if (!userArea.contains(event.target)) {
-                    dropdown.style.display = 'none';
-                }
-            });
-        })();
-    </script>
+
+    <script src="scripts/jquery-4.0.0.min.js"></script>
+    <script src="scripts/userDropdownPillScript.js"></script>
 </body>
 
 </html>

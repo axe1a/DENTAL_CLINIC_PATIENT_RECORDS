@@ -58,7 +58,7 @@ if (!isset($_SESSION['user_id'])) {
                 </div>
             <?php endif; ?>
 
-            <form method="POST" action="add_patient.php" id="patientWizardForm">
+            <form method="POST" id="addPatientWizardForm">
                 <!-- PAGE 1 -->
                 <section class="wizard-step active" data-step="1">
                     <div class="wizard-grid-2">
@@ -409,7 +409,16 @@ if (!isset($_SESSION['user_id'])) {
                         <div class="field" style="grid-column: 1 / -1;">
                             <label>Do you have or had any of the following?</label>
                             <div class="checkbox-grid" style="grid-template-columns: repeat(3, 1fr);">
-                                <?php foreach ($conditions as $c): ?>
+                                <?php
+                                $conditions = $pdo->query(
+                                    "
+                                    SELECT condition_id, condition_name
+                                    FROM medical_conditions
+                                    "
+                                )->fetchAll();
+
+                                foreach ($conditions as $c):
+                                ?>
                                     <label class="check">
                                         <input type="checkbox" name="patient_conditions[]" value="<?= (int)$c['condition_id'] ?>">
                                         <?= htmlspecialchars((string)$c['condition_name']) ?>
@@ -510,6 +519,7 @@ if (!isset($_SESSION['user_id'])) {
 
     <script src="scripts/jquery-4.0.0.min.js"></script>
     <script src="scripts/userDropdownPillScript.js"></script>
+    <script src="scripts/patientFormScript.js"></script>
 </body>
 
 </html>

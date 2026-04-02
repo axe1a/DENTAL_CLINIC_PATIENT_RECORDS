@@ -82,7 +82,10 @@ CREATE TABLE IF NOT EXISTS patient_records (
     body_temp TEXT,
 
     -- X-ray Image File name
-    xray_filename TEXT
+    xray_filename TEXT,
+
+    -- Patient Record data
+    last_opened TEXT DEFAULT (datetime('now'))
 );
 
 -- MEDICAL CONDITIONS MASTER LIST

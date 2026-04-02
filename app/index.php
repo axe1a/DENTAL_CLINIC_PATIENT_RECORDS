@@ -10,7 +10,11 @@ $q = trim((string)($_GET['q'] ?? ''));
 $level = trim((string)($_GET['level'] ?? 'all')); // all | 1,2,3,4, 
 
 $patients = [];
-$patientsStmt = $pdo->query("SELECT patient_id, patient_name, alert_level FROM patient_records ORDER BY patient_id DESC");
+$patientsStmt = $pdo->query("
+    SELECT patient_id, patient_name, alert_level
+    FROM patient_records
+    ORDER BY last_opened DESC
+");
 $patients = $patientsStmt->fetchAll();
 
 // Apply filters for medical alert level and search query
@@ -120,21 +124,6 @@ $recent = array_slice($filtered, 0, 5);
 
     <script>
         (function() {
-            const userArea = document.getElementById('userArea');
-            const userPill = document.getElementById('userPill');
-            const dropdown = document.getElementById('userDropdown');
-            if (!userArea || !userPill || !dropdown) return;
-
-            userPill.addEventListener('click', function() {
-                dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
-            });
-
-            document.addEventListener('click', function(e) {
-                if (!userArea.contains(e.target)) {
-                    dropdown.style.display = 'none';
-                }
-            });
-
             const levelSelect = document.getElementById('levelSelect');
             if (levelSelect) {
                 levelSelect.addEventListener('change', function() {
@@ -145,6 +134,9 @@ $recent = array_slice($filtered, 0, 5);
             }
         })();
     </script>
+
+    <script src="scripts/jquery-4.0.0.min.js"></script>
+    <script src="scripts/userDropdownPillScript.js"></script>
 </body>
 
 </html>
