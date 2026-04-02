@@ -310,7 +310,6 @@ if ($action === "editPatientRecord") {
     } catch (Exception $e) {
         $pdo->rollBack();
         echo json_encode([
-            "message" => "Failed to add patient record",
             'message' => $e->getMessage()
         ]);
     }
