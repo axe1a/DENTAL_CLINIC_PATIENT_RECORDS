@@ -62,12 +62,26 @@
 
   function updateConditional(groupName) {
     const hidden = qs(`input[type="hidden"][data-bool-group="${groupName}"]`);
-    const val = hidden ? String(hidden.value) : "0";
+    const val = hidden ? String(hidden.value) : "";
 
     qsa("[data-conditional-for]").forEach((wrap) => {
       const forGroup = wrap.getAttribute("data-conditional-for");
       const showValue = wrap.getAttribute("data-conditional-value");
-      const shouldShow = forGroup === groupName && String(showValue) === val;
+      const groupHidden = qs(`input[type="hidden"][data-bool-group="${forGroup}"]`);
+      const groupVal = groupHidden ? String(groupHidden.value) : "";
+
+      let shouldShow = false;
+      if (forGroup) {
+        if (showValue !== null && showValue !== undefined && showValue !== "") {
+          shouldShow = String(showValue) === groupVal;
+        } else if (groupVal !== "") {
+          shouldShow = groupVal === "1";
+        } else {
+          // if condition group exists but no hidden value yet, show by default.
+          shouldShow = true;
+        }
+      }
+
       wrap.style.display = shouldShow ? "" : "none";
     });
   }

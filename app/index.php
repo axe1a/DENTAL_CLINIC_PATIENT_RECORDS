@@ -128,7 +128,21 @@ $recent = array_slice($filtered, 0, 5);
             if (levelSelect) {
                 levelSelect.addEventListener('change', function() {
                     const params = new URLSearchParams(window.location.search);
+
+                    // Keep filter value
                     params.set('level', levelSelect.value);
+
+                    // Remove empty search query when input text was cleared
+                    const qInput = document.querySelector('.search input[name="q"]');
+                    if (qInput) {
+                        const value = (qInput.value || '').trim();
+                        if (value === '') {
+                            params.delete('q');
+                        } else {
+                            params.set('q', value);
+                        }
+                    }
+
                     window.location.search = params.toString();
                 });
             }
