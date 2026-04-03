@@ -493,9 +493,6 @@ if (!isset($_SESSION['user_id'])) {
                 if (!sameCheckbox || !emergencyAddress || !homeAddress) return;
                 if (sameCheckbox.checked) {
                     emergencyAddress.value = homeAddress.value || '';
-                    emergencyAddress.disabled = true;
-                } else {
-                    emergencyAddress.disabled = false;
                 }
             }
 
