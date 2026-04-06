@@ -41,7 +41,7 @@ if ($action === "addPatientRecord") {
 
                 emergency_person, emergency_address, emergency_telephone, emergency_cellphone, relationship_to_patient, chief_complaint, present_illness,
 
-                frequency_visit, last_visit, last_procedures, procedure_complications, physician_name, physician_contact, physician_address,
+                frequency_visit, last_visit, last_procedures, anesthesia_response, procedure_complications, physician_name, physician_contact, physician_address,
                 
                 good_health,
                 being_treated, what_condition,
@@ -63,7 +63,7 @@ if ($action === "addPatientRecord") {
                 
                 :emergency_person, :emergency_address, :emergency_telephone, :emergency_cellphone, :relationship_to_patient, :chief_complaint, :present_illness,
                 
-                :frequency_visit, :last_visit, :last_procedures, :procedure_complications, :physician_name, :physician_contact, :physician_address,
+                :frequency_visit, :last_visit, :last_procedures, :anesthesia_response, :procedure_complications, :physician_name, :physician_contact, :physician_address,
                 
                 :good_health,
                 :being_treated, :what_condition,
@@ -107,6 +107,7 @@ if ($action === "addPatientRecord") {
             ":frequency_visit" => $data["frequency_visit"] ?? null,
             ":last_visit" => $data["last_visit"] ?? null,
             ":last_procedures" => $data["last_procedures"] ?? null,
+            ":anesthesia_response" => $data["anesthesia_response"] ?? null,
             ":procedure_complications" => $data["procedure_complications"] ?? null,
             ":physician_name" => $data["physician_name"] ?? null,
             ":physician_contact" => $data["physician_contact"] ?? null,
@@ -248,6 +249,7 @@ if ($action === "editPatientRecord") {
             "frequency_visit",
             "last_visit",
             "last_procedures",
+            "anesthesia_response",
             "procedure_complications",
             "physician_name",
             "physician_contact",
