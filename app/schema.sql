@@ -82,8 +82,7 @@ CREATE TABLE IF NOT EXISTS patient_records (
 
     conditions_other_text TEXT,
 
-    -- X-ray Image File name
-    xray_filename TEXT,
+    treatment_plan TEXT,
 
     -- Patient Record data
     last_opened TEXT DEFAULT (datetime('now'))

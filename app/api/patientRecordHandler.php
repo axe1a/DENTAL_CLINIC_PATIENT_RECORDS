@@ -54,7 +54,9 @@ if ($action === "addPatientRecord") {
                 pregnant, nursing, bc_pills,
                 blood_type, blood_pressure, pulse_rate, respiratory_rate, body_temp,
 
-                conditions_other_text
+                conditions_other_text,
+
+                treatment_plan
             )
             VALUES (
                 :patient_name, :alert_level, :birthdate, :age, :gender, :civil_status, :religion, :occupation, :nationality, :height, :weight, :home_address, :patient_telephone, :patient_cellphone,
@@ -74,7 +76,9 @@ if ($action === "addPatientRecord") {
                 :pregnant, :nursing, :bc_pills,
                 :blood_type, :blood_pressure, :pulse_rate, :respiratory_rate, :body_temp,
 
-                :conditions_other_text
+                :conditions_other_text,
+
+                :treatment_plan
             )
         ");
 
@@ -127,7 +131,8 @@ if ($action === "addPatientRecord") {
             ":pulse_rate" => $data["pulse_rate"] ?? null,
             ":respiratory_rate" => $data["respiratory_rate"] ?? null,
             ":body_temp" => $data["body_temp"] ?? null,
-            ":conditions_other_text" => $data["conditions_other_text"] ?? null
+            ":conditions_other_text" => $data["conditions_other_text"] ?? null,
+            ":treatment_plan" => $data["treatment_plan"] ?? null
         ]);
 
         $patientId = $pdo->lastInsertId();
@@ -271,7 +276,9 @@ if ($action === "editPatientRecord") {
             "respiratory_rate",
             "body_temp",
 
-            "conditions_other_text"
+            "conditions_other_text",
+
+            "treatment_plan"
         ];
 
         $updateParts = [];
