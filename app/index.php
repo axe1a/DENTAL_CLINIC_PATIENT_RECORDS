@@ -73,8 +73,7 @@ $recent = array_slice($filtered, 0, 5);
     <main class="dash-wrap">
         <div class="dash-grid">
             <section class="dash-left">
-                <div class="section-title">Recent</div>
-
+                <div class="section-title">Recent</div> 
                 <div class="patient-cards">
                     <a class="patient-card new-patient-tile" href="../add_patient.php">
                         <div class="plus" aria-hidden="true">+</div>
@@ -118,6 +117,9 @@ $recent = array_slice($filtered, 0, 5);
                         Filter the recent patient tiles.
                     </div>
                 </div>
+                <button class="export-btn" type="button">
+                        Save All Records as CSV/Excel
+                </button>  
             </aside>
         </div>
     </main>

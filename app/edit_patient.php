@@ -487,6 +487,16 @@ $selectedConditions = $statement->fetchAll(PDO::FETCH_COLUMN);
                     </div>
                 </section>
 
+                <!-- PAGE 8 -->
+                <section class="wizard-step" data-step="8">
+                    <div class="wizard-grid-2">
+                        <div class="field" style="grid-column: 1 / -1;">
+                            <label>Treatment Plan</label>
+                            <textarea name="treatment_plan" placeholder=""><?= htmlspecialchars((string)($patient['treatment_plan'] ?? '')) ?></textarea>
+                        </div>
+                    </div>
+                </section>
+
                 <div class="wizard-bottom" style="margin-top: 18px;">
                     <a class="btn cancel" href="index.php">Cancel</a>
                     <button class="btn back" id="wizardBackBtn">Back</button>
