@@ -205,7 +205,7 @@ if (!isset($_SESSION['user_id'])) {
                             <input type="date" name="last_visit">
                         </div>
                         <div class="field">
-                            <label>Procedure(s)/done on Last Dental Visit</label>
+                            <label>Procedure(s) done on Last Dental Visit</label>
                             <input type="text" name="last_procedures" placeholder="">
                         </div>
                         <div class="field">

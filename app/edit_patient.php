@@ -232,7 +232,7 @@ $selectedConditions = $statement->fetchAll(PDO::FETCH_COLUMN);
                             <input type="date" name="last_visit" value="<?= htmlspecialchars((string)($patient['last_visit'] ?? '')) ?>">
                         </div>
                         <div class="field">
-                            <label>Procedure(s)/done on Last Dental Visit</label>
+                            <label>Procedure(s) done on Last Dental Visit</label>
                             <input type="text" name="last_procedures" value="<?= htmlspecialchars((string)($patient['last_procedures'] ?? '')) ?>">
                         </div>
                         <div class="field">
@@ -263,7 +263,7 @@ $selectedConditions = $statement->fetchAll(PDO::FETCH_COLUMN);
                     <div class="field" style="margin-bottom: 15px;">
                         <label>In good health?</label>
                         <input type="hidden" name="good_health" data-bool-group="good_health"
-                                value="<?= ((int)($patient['good_health'] ?? 0) === 1) ? '1' : '0' ?>">
+                            value="<?= ((int)($patient['good_health'] ?? 0) === 1) ? '1' : '0' ?>">
                         <div class="choice-row">
                             <div class="choice" data-bool-group="good_health" data-bool-value="1">Yes</div>
                             <div class="choice" data-bool-group="good_health" data-bool-value="0">No</div>
@@ -273,7 +273,7 @@ $selectedConditions = $statement->fetchAll(PDO::FETCH_COLUMN);
                     <div class="field" style="margin-bottom: 15px;">
                         <label>Currently in medical treatment?</label>
                         <input type="hidden" name="being_treated" data-bool-group="being_treated"
-                                value="<?= ((int)($patient['being_treated'] ?? 0) === 1) ? '1' : '0' ?>">
+                            value="<?= ((int)($patient['being_treated'] ?? 0) === 1) ? '1' : '0' ?>">
                         <div style="display: flex; gap: 16px; align-items: center;">
                             <div class="choice-row">
                                 <div class="choice" data-bool-group="being_treated" data-bool-value="1">Yes</div>
@@ -288,7 +288,7 @@ $selectedConditions = $statement->fetchAll(PDO::FETCH_COLUMN);
                     <div class="field" style="margin-bottom: 15px;">
                         <label>Had serious illness or operation?</label>
                         <input type="hidden" name="serious_illness" data-bool-group="serious_illness"
-                                value="<?= ((int)($patient['serious_illness'] ?? 0) === 1) ? '1' : '0' ?>">
+                            value="<?= ((int)($patient['serious_illness'] ?? 0) === 1) ? '1' : '0' ?>">
                         <div style="display: flex; gap: 16px; align-items: center;">
                             <div class="choice-row">
                                 <div class="choice" data-bool-group="serious_illness" data-bool-value="1">Yes</div>
@@ -303,7 +303,7 @@ $selectedConditions = $statement->fetchAll(PDO::FETCH_COLUMN);
                     <div class="field" style="margin-bottom: 15px;">
                         <label>Was hospitalized?</label>
                         <input type="hidden" name="hospitalized" data-bool-group="hospitalized"
-                                value="<?= ((int)($patient['hospitalized'] ?? 0) === 1) ? '1' : '0' ?>">
+                            value="<?= ((int)($patient['hospitalized'] ?? 0) === 1) ? '1' : '0' ?>">
                         <div style="display: flex; gap: 16px; align-items: center;">
                             <div class="choice-row">
                                 <div class="choice" data-bool-group="hospitalized" data-bool-value="1">Yes</div>
@@ -318,7 +318,7 @@ $selectedConditions = $statement->fetchAll(PDO::FETCH_COLUMN);
                     <div class="field" style="margin-bottom: 15px;">
                         <label>Taking medications?</label>
                         <input type="hidden" name="taking_medications" data-bool-group="taking_medications"
-                                value="<?= ((int)($patient['taking_medications'] ?? 0) === 1) ? '1' : '0' ?>">
+                            value="<?= ((int)($patient['taking_medications'] ?? 0) === 1) ? '1' : '0' ?>">
                         <div style="display: flex; gap: 16px; align-items: center;">
                             <div class="choice-row">
                                 <div class="choice" data-bool-group="taking_medications" data-bool-value="1">Yes</div>
@@ -331,7 +331,7 @@ $selectedConditions = $statement->fetchAll(PDO::FETCH_COLUMN);
                     </div>
                     <!-- </div> -->
                 </section>
-                
+
                 <!-- PAGE 5 -->
                 <section class="wizard-step" data-step="5">
                     <div class="wizard-grid-2">
