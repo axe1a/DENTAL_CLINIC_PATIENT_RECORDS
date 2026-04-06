@@ -209,6 +209,10 @@ if (!isset($_SESSION['user_id'])) {
                             <input type="text" name="last_procedures" placeholder="">
                         </div>
                         <div class="field">
+                            <label>Exposure and response to local anesthesia</label>
+                            <input type="text" name="anesthesia_response" placeholder="">
+                        </div>
+                        <div class="field" style="grid-column: 1 / -1;">
                             <label>Complication(s) during and/or after dental procedure</label>
                             <input type="text" name="procedure_complications" placeholder="">
                         </div>

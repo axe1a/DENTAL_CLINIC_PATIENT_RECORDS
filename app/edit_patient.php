@@ -236,6 +236,10 @@ $selectedConditions = $statement->fetchAll(PDO::FETCH_COLUMN);
                             <input type="text" name="last_procedures" value="<?= htmlspecialchars((string)($patient['last_procedures'] ?? '')) ?>">
                         </div>
                         <div class="field">
+                            <label>Exposure and response to local anesthesia</label>
+                            <input type="text" name="anesthesia_response" value="<?= htmlspecialchars((string)($patient['anesthesia_response'] ?? '')) ?>">
+                        </div>
+                        <div class="field" style="grid-column: 1 / -1;">
                             <label>Complication(s) during and/or after dental procedure</label>
                             <input type="text" name="procedure_complications" value="<?= htmlspecialchars((string)($patient['procedure_complications'] ?? '')) ?>">
                         </div>
